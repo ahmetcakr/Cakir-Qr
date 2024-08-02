@@ -10,7 +10,7 @@ using Core.Application.Results;
 
 namespace QrMenu.Application.Features.UserOperationClaims.Commands.Update;
 
-public class UpdateUserOperationClaimCommand : IRequest<UpdatedUserOperationClaimResponse>, ISecuredRequest
+public class UpdateUserOperationClaimCommand : IRequest<Result<UpdatedUserOperationClaimResponse>>, ISecuredRequest
 {
     public int Id { get; set; }
     public int UserId { get; set; }
@@ -19,7 +19,7 @@ public class UpdateUserOperationClaimCommand : IRequest<UpdatedUserOperationClai
     public string[] Roles => new[] { Admin, Write, UserOperationClaimsOperationClaims.Update };
 
     public class UpdateUserOperationClaimCommandHandler
-        : IRequestHandler<UpdateUserOperationClaimCommand,UpdatedUserOperationClaimResponse>
+        : IRequestHandler<UpdateUserOperationClaimCommand, Result<UpdatedUserOperationClaimResponse>>
     {
         private readonly IUserOperationClaimRepository _userOperationClaimRepository;
         private readonly IMapper _mapper;
@@ -36,7 +36,7 @@ public class UpdateUserOperationClaimCommand : IRequest<UpdatedUserOperationClai
             _userOperationClaimBusinessRules = userOperationClaimBusinessRules;
         }
 
-        public async Task<UpdatedUserOperationClaimResponse> Handle(
+        public async Task<Result<UpdatedUserOperationClaimResponse>> Handle(
             UpdateUserOperationClaimCommand request,
             CancellationToken cancellationToken
         )
@@ -59,7 +59,8 @@ public class UpdateUserOperationClaimCommand : IRequest<UpdatedUserOperationClai
             UpdatedUserOperationClaimResponse updatedUserOperationClaimDto = _mapper.Map<UpdatedUserOperationClaimResponse>(
                 updatedUserOperationClaim
             );
-            return updatedUserOperationClaimDto;
+
+            return Result<UpdatedUserOperationClaimResponse>.Succeed(updatedUserOperationClaimDto);
         }
     }
 }

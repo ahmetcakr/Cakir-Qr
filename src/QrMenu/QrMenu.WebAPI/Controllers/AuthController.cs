@@ -8,6 +8,7 @@ using QrMenu.Application.Features.Auth.Commands.Register;
 using QrMenu.Application.Features.Auth.Commands.RefreshToken;
 using QrMenu.Application.Features.Auth.Commands.RevokeToken;
 using QrMenu.Application.Features.Auth.Commands.SendAuthCode;
+using Core.Application.Results;
 
 namespace QrMenu.WebAPI.Controllers;
 
@@ -29,20 +30,22 @@ public class AuthController : BaseController
     public async Task<IActionResult> Login([FromBody] UserForLoginDto userForLoginDto)
     {
         LoginCommand loginCommand = new() { UserForLoginDto = userForLoginDto, IpAddress = getIpAddress() };
-        LoggedResponse result = await Mediator.Send(loginCommand);
+        Result<LoggedResponse> result = await Mediator.Send(loginCommand);
 
-        if (result.RefreshToken is not null)
-            setRefreshTokenToCookie(result.RefreshToken);
+        if (result.Data is not null)
+            if (result.Data.RefreshToken is not null)
+                setRefreshTokenToCookie(result.Data.RefreshToken);
 
-        return Ok(result.ToHttpResponse());
+        return Ok(result.Data.ToHttpResponse());
     }
 
     [HttpPost("Register")]
     public async Task<IActionResult> Register([FromBody] UserForRegisterDto userForRegisterDto)
     {
         RegisterCommand registerCommand = new() { UserForRegisterDto = userForRegisterDto, IpAddress = getIpAddress() };
-        RegisteredResponse result = await Mediator.Send(registerCommand);
-        return Created(getIpAddress(), result.Message);
+        Result<RegisteredResponse> result = await Mediator.Send(registerCommand);
+        
+        return Created(getIpAddress(), result);
     }
 
     [HttpGet("RefreshToken")]

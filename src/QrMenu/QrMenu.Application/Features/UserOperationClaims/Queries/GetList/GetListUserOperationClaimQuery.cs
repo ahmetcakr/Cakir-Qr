@@ -5,10 +5,11 @@ using Core.Application.Responses;
 using Core.Persistence.Paging;
 using Core.Security.Entities;
 using MediatR;
+using Core.Application.Results;
 
 namespace QrMenu.Application.Features.UserOperationClaims.Queries.GetList;
 
-public class GetListUserOperationClaimQuery : IRequest<GetListResponse<GetListUserOperationClaimListItemDto>>
+public class GetListUserOperationClaimQuery : IRequest<Result<GetListResponse<GetListUserOperationClaimListItemDto>>>
 {
     public PageRequest PageRequest { get; set; }
 
@@ -23,7 +24,7 @@ public class GetListUserOperationClaimQuery : IRequest<GetListResponse<GetListUs
     }
 
     public class GetListUserOperationClaimQueryHandler
-        : IRequestHandler<GetListUserOperationClaimQuery, GetListResponse<GetListUserOperationClaimListItemDto>>
+        : IRequestHandler<GetListUserOperationClaimQuery, Result<GetListResponse<GetListUserOperationClaimListItemDto>>>
     {
         private readonly IUserOperationClaimRepository _userOperationClaimRepository;
         private readonly IMapper _mapper;
@@ -34,7 +35,7 @@ public class GetListUserOperationClaimQuery : IRequest<GetListResponse<GetListUs
             _mapper = mapper;
         }
 
-        public async Task<GetListResponse<GetListUserOperationClaimListItemDto>> Handle(
+        public async Task<Result<GetListResponse<GetListUserOperationClaimListItemDto>>> Handle(
             GetListUserOperationClaimQuery request,
             CancellationToken cancellationToken
         )
@@ -47,7 +48,8 @@ public class GetListUserOperationClaimQuery : IRequest<GetListResponse<GetListUs
             GetListResponse<GetListUserOperationClaimListItemDto> mappedUserOperationClaimListModel = _mapper.Map<
                 GetListResponse<GetListUserOperationClaimListItemDto>
             >(userOperationClaims);
-            return mappedUserOperationClaimListModel;
+
+            return Result<GetListResponse<GetListUserOperationClaimListItemDto>>.Succeed(mappedUserOperationClaimListModel);
         }
     }
 }

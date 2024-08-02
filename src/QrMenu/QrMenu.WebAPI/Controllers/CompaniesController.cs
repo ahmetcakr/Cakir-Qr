@@ -7,6 +7,8 @@ using QrMenu.Application.Features.Companies.Queries.GetById;
 using QrMenu.Application.Features.Companies.Queries.GetList;
 using QrMenu.Application.Features.Users.Queries.GetList;
 using Microsoft.AspNetCore.Mvc;
+using Core.Application.Results;
+using Microsoft.AspNetCore.Http.HttpResults;
 
 namespace QrMenu.WebAPI.Controllers
 {
@@ -18,7 +20,7 @@ namespace QrMenu.WebAPI.Controllers
         [HttpGet("{Id}")]
         public async Task<IActionResult> GetById([FromRoute] GetByIdCompanyQuery getByIdCompanyQuery)
         {
-            GetByIdCompanyResponse result = await Mediator.Send(getByIdCompanyQuery);
+            Result<GetByIdCompanyResponse> result = await Mediator.Send(getByIdCompanyQuery);
             return Ok(result);
         }
 
@@ -26,28 +28,28 @@ namespace QrMenu.WebAPI.Controllers
         public async Task<IActionResult> GetList([FromQuery] PageRequest pageRequest)
         {
             GetListCompanyQuery getListUserQuery = new() { PageRequest = pageRequest };
-            GetListResponse<GetListCompanyResponse> result = await Mediator.Send(getListUserQuery);
+            Result<GetListResponse<GetListCompanyResponse>> result = await Mediator.Send(getListUserQuery);
             return Ok(result);
         }
 
         [HttpPost]
         public async Task<IActionResult> Add([FromBody] CreateCompanyCommand createCompanyCommand)
         {
-            CreatedCompanyResponse result = await Mediator.Send(createCompanyCommand);
+            Result<CreatedCompanyResponse> result = await Mediator.Send(createCompanyCommand);
             return Created(uri: "", result);
         }
 
         [HttpPut]
         public async Task<IActionResult> Update([FromBody] UpdateCompanyCommand  updateCompanyCommand)
         {
-            UpdatedCompanyResponse result = await Mediator.Send(updateCompanyCommand);
+            Result<UpdatedCompanyResponse> result = await Mediator.Send(updateCompanyCommand);
             return Ok(result);
         }
 
         [HttpDelete]
         public async Task<IActionResult> Delete([FromBody] DeleteCompanyCommand deleteCompanyCommand)
         {
-            DeletedCompanyResponse result = await Mediator.Send(deleteCompanyCommand);
+            Result<DeletedCompanyResponse> result = await Mediator.Send(deleteCompanyCommand);
             return Ok(result);
         }
     }

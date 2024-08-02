@@ -6,10 +6,11 @@ using QrMenu.Application.Features.CompanyTypes.Constants;
 using QrMenu.Application.Features.CompanyTypes.Rules;
 using QrMenu.Application.Repositories;
 using MediatR;
+using Core.Application.Results;
 
 namespace QrMenu.Application.Features.CompanyTypes.Commands.Update;
 
-public class UpdateCompanyTypeCommand : IRequest<UpdatedCompanyTypeResponse>, ISecuredRequest
+public class UpdateCompanyTypeCommand : IRequest<Result<UpdatedCompanyTypeResponse>>, ISecuredRequest
 {
     public int Id { get; set; }
     public string TypeName { get; set; }
@@ -39,9 +40,9 @@ public class UpdateCompanyTypeCommand : IRequest<UpdatedCompanyTypeResponse>, IS
     internal sealed class UpdateCompanyTypeCommandHandler(
         ICompanyTypeRepository companyTypeRepository,
         IMapper mapper,
-        CompanyTypeBusinessRules companyTypeBusinessRules) : IRequestHandler<UpdateCompanyTypeCommand, UpdatedCompanyTypeResponse>
+        CompanyTypeBusinessRules companyTypeBusinessRules) : IRequestHandler<UpdateCompanyTypeCommand, Result<UpdatedCompanyTypeResponse>>
     {
-        public async Task<UpdatedCompanyTypeResponse> Handle(UpdateCompanyTypeCommand request, CancellationToken cancellationToken)
+        public async Task<Result<UpdatedCompanyTypeResponse>> Handle(UpdateCompanyTypeCommand request, CancellationToken cancellationToken)
         {
             await companyTypeBusinessRules.CompanyTypeIdShouldBeExist(request.Id);
 
@@ -56,7 +57,7 @@ public class UpdateCompanyTypeCommand : IRequest<UpdatedCompanyTypeResponse>, IS
 
             UpdatedCompanyTypeResponse response = mapper.Map<UpdatedCompanyTypeResponse>(updatedCompanyType);
 
-            return response;
+            return Result<UpdatedCompanyTypeResponse>.Succeed(response);
         }
     }
 }

@@ -6,17 +6,18 @@ using Core.Application.Pipelines.Authorization;
 using Core.Security.Entities;
 using MediatR;
 using static QrMenu.Application.Features.UserOperationClaims.Constants.UserOperationClaimsOperationClaims;
+using Core.Application.Results;
 
 namespace QrMenu.Application.Features.UserOperationClaims.Commands.Delete;
 
-public class DeleteUserOperationClaimCommand : IRequest<DeletedUserOperationClaimResponse>, ISecuredRequest
+public class DeleteUserOperationClaimCommand : IRequest<Result<DeletedUserOperationClaimResponse>>, ISecuredRequest
 {
     public int Id { get; set; }
 
     public string[] Roles => new[] { Admin, Write, UserOperationClaimsOperationClaims.Delete };
 
     public class DeleteUserOperationClaimCommandHandler
-        : IRequestHandler<DeleteUserOperationClaimCommand, DeletedUserOperationClaimResponse>
+        : IRequestHandler<DeleteUserOperationClaimCommand, Result<DeletedUserOperationClaimResponse>>
     {
         private readonly IUserOperationClaimRepository _userOperationClaimRepository;
         private readonly IMapper _mapper;
@@ -33,7 +34,7 @@ public class DeleteUserOperationClaimCommand : IRequest<DeletedUserOperationClai
             _userOperationClaimBusinessRules = userOperationClaimBusinessRules;
         }
 
-        public async Task<DeletedUserOperationClaimResponse> Handle(
+        public async Task<Result<DeletedUserOperationClaimResponse>> Handle(
             DeleteUserOperationClaimCommand request,
             CancellationToken cancellationToken
         )
@@ -47,7 +48,7 @@ public class DeleteUserOperationClaimCommand : IRequest<DeletedUserOperationClai
             await _userOperationClaimRepository.DeleteAsync(userOperationClaim!);
 
             DeletedUserOperationClaimResponse response = _mapper.Map<DeletedUserOperationClaimResponse>(userOperationClaim);
-            return response;
+            return Result<DeletedUserOperationClaimResponse>.Succeed(response);
         }
     }
 }

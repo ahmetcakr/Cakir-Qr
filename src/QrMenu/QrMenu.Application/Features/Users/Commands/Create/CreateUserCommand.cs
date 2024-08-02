@@ -6,10 +6,12 @@ using QrMenu.Application.Features.Users.Constants;
 using QrMenu.Application.Features.Users.Rules;
 using QrMenu.Application.Repositories;
 using MediatR;
+using Core.Application.Results;
+using Microsoft.AspNetCore.Http;
 
 namespace QrMenu.Application.Features.Users.Commands.Create;
 
-public class CreateUserCommand : IRequest<CreatedUserResponse>, ISecuredRequest
+public class CreateUserCommand : IRequest<Result<CreatedUserResponse>>, ISecuredRequest
 {
     public string FirstName { get; set; }
     public string LastName { get; set; }
@@ -34,7 +36,7 @@ public class CreateUserCommand : IRequest<CreatedUserResponse>, ISecuredRequest
 
     public string[] Roles => new[] { UsersOperationClaims.Admin, UsersOperationClaims.Write, UsersOperationClaims.Add };
 
-    public class CreateUserCommandHandler : IRequestHandler<CreateUserCommand, CreatedUserResponse>
+    public class CreateUserCommandHandler : IRequestHandler<CreateUserCommand, Result<CreatedUserResponse>>
     {
         private readonly IUserRepository _userRepository;
         private readonly IMapper _mapper;
@@ -47,7 +49,7 @@ public class CreateUserCommand : IRequest<CreatedUserResponse>, ISecuredRequest
             _userBusinessRules = userBusinessRules;
         }
 
-        public async Task<CreatedUserResponse> Handle(CreateUserCommand request, CancellationToken cancellationToken)
+        public async Task<Result<CreatedUserResponse>> Handle(CreateUserCommand request, CancellationToken cancellationToken)
         {
             await _userBusinessRules.UserEmailShouldNotExistsWhenInsert(request.Email);
             User user = _mapper.Map<User>(request);
@@ -62,7 +64,7 @@ public class CreateUserCommand : IRequest<CreatedUserResponse>, ISecuredRequest
             User createdUser = await _userRepository.AddAsync(user);
 
             CreatedUserResponse response = _mapper.Map<CreatedUserResponse>(createdUser);
-            return response;
+            return Result<CreatedUserResponse>.Succeed(response, StatusCodes.Status201Created);
         }
     }
 }

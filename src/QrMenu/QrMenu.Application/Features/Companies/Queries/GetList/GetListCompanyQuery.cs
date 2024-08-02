@@ -7,10 +7,11 @@ using Core.Security.Entities;
 using QrMenu.Application.Repositories;
 using QrMenu.Domain.Entities;
 using MediatR;
+using Core.Application.Results;
 
 namespace QrMenu.Application.Features.Companies.Queries.GetList;
 
-public class GetListCompanyQuery : IRequest<GetListResponse<GetListCompanyResponse>>, ICachableRequest
+public class GetListCompanyQuery : IRequest<Result<GetListResponse<GetListCompanyResponse>>>, ICachableRequest
 {
     public PageRequest PageRequest { get; set; }
 
@@ -41,9 +42,9 @@ public class GetListCompanyQuery : IRequest<GetListResponse<GetListCompanyRespon
 
     internal sealed class GetListCompanyQueryHandler(
         ICompanyRepository companyRepository,
-        IMapper mapper) : IRequestHandler<GetListCompanyQuery, GetListResponse<GetListCompanyResponse>>
+        IMapper mapper) : IRequestHandler<GetListCompanyQuery, Result<GetListResponse<GetListCompanyResponse>>>
     {
-        public async Task<GetListResponse<GetListCompanyResponse>> Handle(GetListCompanyQuery request, CancellationToken cancellationToken)
+        public async Task<Result<GetListResponse<GetListCompanyResponse>>> Handle(GetListCompanyQuery request, CancellationToken cancellationToken)
         {
             IPaginate<Company> companies = await companyRepository.GetListAsync(
                 index: request.PageRequest.PageIndex,
@@ -53,7 +54,7 @@ public class GetListCompanyQuery : IRequest<GetListResponse<GetListCompanyRespon
 
             GetListResponse<GetListCompanyResponse> response = mapper.Map<GetListResponse<GetListCompanyResponse>>(companies);
 
-            return response;
+            return Result<GetListResponse<GetListCompanyResponse>>.Succeed(response);
         }
     }
 

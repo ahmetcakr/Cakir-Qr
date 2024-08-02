@@ -7,10 +7,11 @@ using Core.Security.Entities;
 using Core.Security.Hashing;
 using MediatR;
 using static QrMenu.Application.Features.Users.Constants.UsersOperationClaims;
+using Core.Application.Results;
 
 namespace QrMenu.Application.Features.Users.Commands.Update;
 
-public class UpdateUserCommand : IRequest<UpdatedUserResponse>, ISecuredRequest
+public class UpdateUserCommand : IRequest<Result<UpdatedUserResponse>>, ISecuredRequest
 {
     public int Id { get; set; }
     public string FirstName { get; set; }
@@ -37,7 +38,7 @@ public class UpdateUserCommand : IRequest<UpdatedUserResponse>, ISecuredRequest
 
     public string[] Roles => new[] { Admin, Write, UsersOperationClaims.Update };
 
-    public class UpdateUserCommandHandler : IRequestHandler<UpdateUserCommand, UpdatedUserResponse>
+    public class UpdateUserCommandHandler : IRequestHandler<UpdateUserCommand, Result<UpdatedUserResponse>>
     {
         private readonly IUserRepository _userRepository;
         private readonly IMapper _mapper;
@@ -50,7 +51,7 @@ public class UpdateUserCommand : IRequest<UpdatedUserResponse>, ISecuredRequest
             _userBusinessRules = userBusinessRules;
         }
 
-        public async Task<UpdatedUserResponse> Handle(UpdateUserCommand request, CancellationToken cancellationToken)
+        public async Task<Result<UpdatedUserResponse>> Handle(UpdateUserCommand request, CancellationToken cancellationToken)
         {
             User? user = await _userRepository.GetAsync(predicate: u => u.Id == request.Id, cancellationToken: cancellationToken);
             await _userBusinessRules.UserShouldBeExistsWhenSelected(user);
@@ -67,7 +68,7 @@ public class UpdateUserCommand : IRequest<UpdatedUserResponse>, ISecuredRequest
             await _userRepository.UpdateAsync(user);
 
             UpdatedUserResponse response = _mapper.Map<UpdatedUserResponse>(user);
-            return response;
+            return Result<UpdatedUserResponse>.Succeed(response);
         }
     }
 }

@@ -6,10 +6,11 @@ using QrMenu.Application.Features.OperationClaims.Rules;
 using QrMenu.Application.Repositories;
 using MediatR;
 using static QrMenu.Application.Features.OperationClaims.Constants.OperationClaimsOperationClaims;
+using Core.Application.Results;
 
 namespace QrMenu.Application.Features.OperationClaims.Commands.Update
 {
-    public class UpdateOperationClaimCommand : IRequest<UpdatedOperationClaimResponse>, ISecuredRequest
+    public class UpdateOperationClaimCommand : IRequest<Result<UpdatedOperationClaimResponse>>, ISecuredRequest
     {
         public int Id { get; set; }
         public string Name { get; set; }
@@ -27,7 +28,7 @@ namespace QrMenu.Application.Features.OperationClaims.Commands.Update
 
         public string[] Roles => new[] { Admin, Write, OperationClaimsOperationClaims.Update };
 
-        public class UpdateOperationClaimCommandHandler : IRequestHandler<UpdateOperationClaimCommand, UpdatedOperationClaimResponse>
+        public class UpdateOperationClaimCommandHandler : IRequestHandler<UpdateOperationClaimCommand, Result<UpdatedOperationClaimResponse>>
         {
             private readonly IOperationClaimRepository _operationClaimRepository;
             private readonly IMapper _mapper;
@@ -44,7 +45,7 @@ namespace QrMenu.Application.Features.OperationClaims.Commands.Update
                 _operationClaimBusinessRules = operationClaimBusinessRules;
             }
 
-            public async Task<UpdatedOperationClaimResponse> Handle(UpdateOperationClaimCommand request, CancellationToken cancellationToken)
+            public async Task<Result<UpdatedOperationClaimResponse>> Handle(UpdateOperationClaimCommand request, CancellationToken cancellationToken)
             {
                 OperationClaim? operationClaim = await _operationClaimRepository.GetAsync(
                     predicate: oc => oc.Id == request.Id,
@@ -57,7 +58,7 @@ namespace QrMenu.Application.Features.OperationClaims.Commands.Update
                 OperationClaim updatedOperationClaim = await _operationClaimRepository.UpdateAsync(mappedOperationClaim);
 
                 UpdatedOperationClaimResponse response = _mapper.Map<UpdatedOperationClaimResponse>(updatedOperationClaim);
-                return response;
+                return Result<UpdatedOperationClaimResponse>.Succeed(response);
             }
         }
     }

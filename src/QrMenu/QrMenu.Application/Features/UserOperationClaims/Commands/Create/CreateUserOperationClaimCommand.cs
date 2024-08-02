@@ -5,10 +5,11 @@ using Core.Application.Pipelines.Authorization;
 using Core.Security.Entities;
 using MediatR;
 using static QrMenu.Application.Features.UserOperationClaims.Constants.UserOperationClaimsOperationClaims;
+using Core.Application.Results;
 
 namespace QrMenu.Application.Features.UserOperationClaims.Commands.Create;
 
-public class CreateUserOperationClaimCommand : IRequest<CreatedUserOperationClaimResponse>, ISecuredRequest
+public class CreateUserOperationClaimCommand : IRequest<Result<CreatedUserOperationClaimResponse>>, ISecuredRequest
 {
     public int UserId { get; set; }
     public int OperationClaimId { get; set; }
@@ -16,7 +17,7 @@ public class CreateUserOperationClaimCommand : IRequest<CreatedUserOperationClai
     public string[] Roles => new[] { Admin, Write, Add };
 
     public class CreateUserOperationClaimCommandHandler
-        : IRequestHandler<CreateUserOperationClaimCommand, CreatedUserOperationClaimResponse>
+        : IRequestHandler<CreateUserOperationClaimCommand, Result<CreatedUserOperationClaimResponse>>
     {
         private readonly IUserOperationClaimRepository _userOperationClaimRepository;
         private readonly IMapper _mapper;
@@ -33,7 +34,7 @@ public class CreateUserOperationClaimCommand : IRequest<CreatedUserOperationClai
             _userOperationClaimBusinessRules = userOperationClaimBusinessRules;
         }
 
-        public async Task<CreatedUserOperationClaimResponse> Handle(
+        public async Task<Result<CreatedUserOperationClaimResponse>> Handle(
             CreateUserOperationClaimCommand request,
             CancellationToken cancellationToken
         )
@@ -49,7 +50,8 @@ public class CreateUserOperationClaimCommand : IRequest<CreatedUserOperationClai
             CreatedUserOperationClaimResponse createdUserOperationClaimDto = _mapper.Map<CreatedUserOperationClaimResponse>(
                 createdUserOperationClaim
             );
-            return createdUserOperationClaimDto;
+
+            return Result<CreatedUserOperationClaimResponse>.Succeed(createdUserOperationClaimDto);
         }
     }
 }

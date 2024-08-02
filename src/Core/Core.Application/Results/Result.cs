@@ -45,7 +45,18 @@ public sealed class Result<T>
         return new Result<T>(parameters.statusCode, parameters.errorMessage);
     }
 
+    // this is a factory method
+    // how to use
+    // Result<CreatedCompanyResponse>.Succeed(response);
+    // but if you wanna use with status code
+    // Result<CreatedCompanyResponse>.Succeed(response, 201);
+
     public static Result<T> Succeed(T data)
+    {
+        return new Result<T>(data);
+    }
+
+    public static Result<T> Succeed(T data, int statusCode)
     {
         return new Result<T>(data);
     }

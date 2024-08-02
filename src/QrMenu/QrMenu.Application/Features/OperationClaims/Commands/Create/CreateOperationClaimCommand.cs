@@ -5,10 +5,12 @@ using QrMenu.Application.Features.OperationClaims.Rules;
 using QrMenu.Application.Repositories;
 using MediatR;
 using static QrMenu.Application.Features.OperationClaims.Constants.OperationClaimsOperationClaims;
+using Core.Application.Results;
+using Microsoft.AspNetCore.Http;
 
 namespace QrMenu.Application.Features.OperationClaims.Commands.Create;
 
-public class CreateOperationClaimCommand : IRequest<CreatedOperationClaimResponse>, ISecuredRequest
+public class CreateOperationClaimCommand : IRequest<Result<CreatedOperationClaimResponse>>, ISecuredRequest
 {
     public string Name { get; set; }
 
@@ -24,7 +26,7 @@ public class CreateOperationClaimCommand : IRequest<CreatedOperationClaimRespons
 
     public string[] Roles => new[] { Admin, Write, Add };
 
-    public class CreateOperationClaimCommandHandler : IRequestHandler<CreateOperationClaimCommand, CreatedOperationClaimResponse>
+    public class CreateOperationClaimCommandHandler : IRequestHandler<CreateOperationClaimCommand, Result<CreatedOperationClaimResponse>>
     {
         private readonly IOperationClaimRepository _operationClaimRepository;
         private readonly IMapper _mapper;
@@ -41,7 +43,7 @@ public class CreateOperationClaimCommand : IRequest<CreatedOperationClaimRespons
             _operationClaimBusinessRules = operationClaimBusinessRules;
         }
 
-        public async Task<CreatedOperationClaimResponse> Handle(CreateOperationClaimCommand request, CancellationToken cancellationToken)
+        public async Task<Result<CreatedOperationClaimResponse>> Handle(CreateOperationClaimCommand request, CancellationToken cancellationToken)
         {
             await _operationClaimBusinessRules.OperationClaimNameShouldNotExistWhenCreating(request.Name);
             OperationClaim mappedOperationClaim = _mapper.Map<OperationClaim>(request);
@@ -49,7 +51,7 @@ public class CreateOperationClaimCommand : IRequest<CreatedOperationClaimRespons
             OperationClaim createdOperationClaim = await _operationClaimRepository.AddAsync(mappedOperationClaim);
 
             CreatedOperationClaimResponse response = _mapper.Map<CreatedOperationClaimResponse>(createdOperationClaim);
-            return response;
+            return Result<CreatedOperationClaimResponse>.Succeed(response, StatusCodes.Status201Created);
         }
     }
 }

@@ -5,10 +5,12 @@ using QrMenu.Application.Features.CompanyTypes.Rules;
 using QrMenu.Application.Repositories;
 using QrMenu.Domain.Entities;
 using MediatR;
+using Core.Application.Results;
+using Microsoft.AspNetCore.Http;
 
 namespace QrMenu.Application.Features.CompanyTypes.Commands.Create;
 
-public class CreateCompanyTypeCommand : IRequest<CreatedCompanyTypeResponse>, ISecuredRequest
+public class CreateCompanyTypeCommand : IRequest<Result<CreatedCompanyTypeResponse>>, ISecuredRequest
 {
     public string TypeName { get; set; }
     public string Description { get; set; }
@@ -36,9 +38,9 @@ public class CreateCompanyTypeCommand : IRequest<CreatedCompanyTypeResponse>, IS
     internal sealed class CreateCompanyTypeCommandHandler
         (ICompanyTypeRepository companyTypeRepository,
         IMapper mapper,
-        CompanyTypeBusinessRules companyTypeBusinessRules) : IRequestHandler<CreateCompanyTypeCommand, CreatedCompanyTypeResponse>
+        CompanyTypeBusinessRules companyTypeBusinessRules) : IRequestHandler<CreateCompanyTypeCommand, Result<CreatedCompanyTypeResponse>>
     {
-        public async Task<CreatedCompanyTypeResponse> Handle(CreateCompanyTypeCommand request, CancellationToken cancellationToken)
+        public async Task<Result<CreatedCompanyTypeResponse>> Handle(CreateCompanyTypeCommand request, CancellationToken cancellationToken)
         {
             CompanyType companyType = mapper.Map<CompanyType>(request);
 
@@ -46,7 +48,7 @@ public class CreateCompanyTypeCommand : IRequest<CreatedCompanyTypeResponse>, IS
 
             CreatedCompanyTypeResponse response = mapper.Map<CreatedCompanyTypeResponse>(createdCompanyType);
 
-            return response;
+            return Result<CreatedCompanyTypeResponse>.Succeed(response,StatusCodes.Status201Created);
         }
     }
 }

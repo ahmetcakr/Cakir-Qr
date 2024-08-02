@@ -6,10 +6,11 @@ using QrMenu.Application.Features.Auth.Rules;
 using QrMenu.Application.Repositories;
 using QrMenu.Application.Services.AuthService;
 using MediatR;
+using Core.Application.Results;
 
 namespace QrMenu.Application.Features.Auth.Commands.Register;
 
-public class RegisterCommand : IRequest<RegisteredResponse>
+public class RegisterCommand : IRequest<Result<RegisteredResponse>>
 {
     public UserForRegisterDto UserForRegisterDto { get; set; }
     public string IpAddress { get; set; }
@@ -26,7 +27,7 @@ public class RegisterCommand : IRequest<RegisteredResponse>
         IpAddress = ipAddress;
     }
 
-    public class RegisterCommandHandler : IRequestHandler<RegisterCommand, RegisteredResponse>
+    public class RegisterCommandHandler : IRequestHandler<RegisterCommand, Result<RegisteredResponse>>
     {
         private readonly IUserRepository _userRepository;
         private readonly IAuthService _authService;
@@ -39,7 +40,7 @@ public class RegisterCommand : IRequest<RegisteredResponse>
             _authBusinessRules = authBusinessRules;
         }
 
-        public async Task<RegisteredResponse> Handle(RegisterCommand request, CancellationToken cancellationToken)
+        public async Task<Result<RegisteredResponse>> Handle(RegisterCommand request, CancellationToken cancellationToken)
         {
             await _authBusinessRules.UserEmailShouldBeNotExists(request.UserForRegisterDto.Email);
 
@@ -61,7 +62,8 @@ public class RegisterCommand : IRequest<RegisteredResponse>
             User createdUser = await _userRepository.AddAsync(newUser);
 
             RegisteredResponse registeredResponse = new() { Message = $"Welcome {createdUser.FirstName}" };
-            return registeredResponse;
+            
+            return Result<RegisteredResponse>.Succeed(registeredResponse);
         }
     }
 }

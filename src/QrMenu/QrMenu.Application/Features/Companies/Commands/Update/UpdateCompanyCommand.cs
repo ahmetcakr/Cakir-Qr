@@ -6,10 +6,11 @@ using QrMenu.Application.Features.Companies.Rules;
 using QrMenu.Application.Repositories;
 using QrMenu.Domain.Entities;
 using MediatR;
+using Core.Application.Results;
 
 namespace QrMenu.Application.Features.Companies.Commands.Update;
 
-public class UpdateCompanyCommand : IRequest<UpdatedCompanyResponse>, ISecuredRequest
+public class UpdateCompanyCommand : IRequest<Result<UpdatedCompanyResponse>>, ISecuredRequest
 {
     public int Id { get; set; }
     public string CompanyName { get; set; }
@@ -51,9 +52,9 @@ public class UpdateCompanyCommand : IRequest<UpdatedCompanyResponse>, ISecuredRe
     internal sealed class UpdateCompanyCommandHandler(
         ICompanyRepository companyRepository,
         IMapper mapper,
-        CompanyBusinessRules companyBusinessRules) : IRequestHandler<UpdateCompanyCommand, UpdatedCompanyResponse>
+        CompanyBusinessRules companyBusinessRules) : IRequestHandler<UpdateCompanyCommand, Result<UpdatedCompanyResponse>>
     {
-        public async Task<UpdatedCompanyResponse> Handle(UpdateCompanyCommand request, CancellationToken cancellationToken)
+        public async Task<Result<UpdatedCompanyResponse>> Handle(UpdateCompanyCommand request, CancellationToken cancellationToken)
         {
             await companyBusinessRules.CompanyIdShouldBeExist(request.Id);
 
@@ -68,7 +69,7 @@ public class UpdateCompanyCommand : IRequest<UpdatedCompanyResponse>, ISecuredRe
 
             UpdatedCompanyResponse response = mapper.Map<UpdatedCompanyResponse>(updatedCompany);
 
-            return response;
+            return Result<UpdatedCompanyResponse>.Succeed(response);
         }
     }
 }

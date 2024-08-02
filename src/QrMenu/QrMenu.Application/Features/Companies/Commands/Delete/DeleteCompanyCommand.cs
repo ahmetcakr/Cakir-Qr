@@ -8,10 +8,13 @@ using QrMenu.Application.Repositories;
 using QrMenu.Domain.Entities;
 using MediatR;
 using static QrMenu.Application.Features.Companies.Constants.CompaniesOperationClaims;
+using Core.Application.Results;
+using System.Net;
+using Microsoft.AspNetCore.Http;
 
 namespace QrMenu.Application.Features.Companies.Commands.Delete;
 
-public class DeleteCompanyCommand : IRequest<DeletedCompanyResponse>, ISecuredRequest
+public class DeleteCompanyCommand : IRequest<Result<DeletedCompanyResponse>>, ISecuredRequest
 {
     public int Id { get; set; }
 
@@ -25,9 +28,9 @@ public class DeleteCompanyCommand : IRequest<DeletedCompanyResponse>, ISecuredRe
     public class DeleteCompanyCommandHandler(
         ICompanyRepository companyRepository,
         CompanyBusinessRules companyBusinessRules,
-        IMapper mapper) : IRequestHandler<DeleteCompanyCommand, DeletedCompanyResponse>
+        IMapper mapper) : IRequestHandler<DeleteCompanyCommand, Result<DeletedCompanyResponse>>
     {
-        public async Task<DeletedCompanyResponse> Handle(DeleteCompanyCommand request, CancellationToken cancellationToken)
+        public async Task<Result<DeletedCompanyResponse>> Handle(DeleteCompanyCommand request, CancellationToken cancellationToken)
         {
             await companyBusinessRules.CompanyIdShouldBeExist(request.Id);
 
@@ -40,7 +43,7 @@ public class DeleteCompanyCommand : IRequest<DeletedCompanyResponse>, ISecuredRe
 
             DeletedCompanyResponse response = mapper.Map<DeletedCompanyResponse>(company);
 
-            return response;
+            return Result<DeletedCompanyResponse>.Succeed(response);
         }
     }
 }

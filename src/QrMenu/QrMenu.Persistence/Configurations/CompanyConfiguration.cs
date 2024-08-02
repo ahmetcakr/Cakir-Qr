@@ -1,8 +1,6 @@
-﻿using QrMenu.Domain.Entities;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using Core.Security.Entities;
-using Core.Security.Hashing;
+using QrMenu.Domain.Entities;
 
 namespace QrMenu.Persistence.Configurations;
 

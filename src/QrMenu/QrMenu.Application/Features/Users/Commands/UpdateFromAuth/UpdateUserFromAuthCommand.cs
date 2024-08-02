@@ -5,10 +5,11 @@ using AutoMapper;
 using Core.Security.Entities;
 using Core.Security.Hashing;
 using MediatR;
+using Core.Application.Results;
 
 namespace QrMenu.Application.Features.Users.Commands.UpdateFromAuth;
 
-public class UpdateUserFromAuthCommand : IRequest<UpdatedUserFromAuthResponse>
+public class UpdateUserFromAuthCommand : IRequest<Result<UpdatedUserFromAuthResponse>>
 {
     public int Id { get; set; }
     public string FirstName { get; set; }
@@ -31,7 +32,7 @@ public class UpdateUserFromAuthCommand : IRequest<UpdatedUserFromAuthResponse>
         Password = password;
     }
 
-    public class UpdateUserFromAuthCommandHandler : IRequestHandler<UpdateUserFromAuthCommand, UpdatedUserFromAuthResponse>
+    public class UpdateUserFromAuthCommandHandler : IRequestHandler<UpdateUserFromAuthCommand, Result<UpdatedUserFromAuthResponse>>
     {
         private readonly IUserRepository _userRepository;
         private readonly IMapper _mapper;
@@ -51,7 +52,7 @@ public class UpdateUserFromAuthCommand : IRequest<UpdatedUserFromAuthResponse>
             _authService = authService;
         }
 
-        public async Task<UpdatedUserFromAuthResponse> Handle(UpdateUserFromAuthCommand request, CancellationToken cancellationToken)
+        public async Task<Result<UpdatedUserFromAuthResponse>> Handle(UpdateUserFromAuthCommand request, CancellationToken cancellationToken)
         {
             User? user = await _userRepository.GetAsync(predicate: u => u.Id == request.Id, cancellationToken: cancellationToken);
             await _userBusinessRules.UserShouldBeExistsWhenSelected(user);
@@ -73,7 +74,7 @@ public class UpdateUserFromAuthCommand : IRequest<UpdatedUserFromAuthResponse>
 
             UpdatedUserFromAuthResponse response = _mapper.Map<UpdatedUserFromAuthResponse>(updatedUser);
             response.AccessToken = await _authService.CreateAccessToken(user!);
-            return response;
+            return Result<UpdatedUserFromAuthResponse>.Succeed(response);
         }
     }
 }

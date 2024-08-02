@@ -5,10 +5,11 @@ using Core.Persistence.Paging;
 using Core.Security.Entities;
 using QrMenu.Application.Repositories;
 using MediatR;
+using Core.Application.Results;
 
 namespace QrMenu.Application.Features.OperationClaims.Queries.GetList;
 
-public class GetListOperationClaimQuery : IRequest<GetListResponse<GetListOperationClaimListItemDto>>
+public class GetListOperationClaimQuery : IRequest<Result<GetListResponse<GetListOperationClaimListItemDto>>>
 {
     public PageRequest PageRequest { get; set; }
 
@@ -23,7 +24,7 @@ public class GetListOperationClaimQuery : IRequest<GetListResponse<GetListOperat
     }
 
     public class GetListOperationClaimQueryHandler
-        : IRequestHandler<GetListOperationClaimQuery, GetListResponse<GetListOperationClaimListItemDto>>
+        : IRequestHandler<GetListOperationClaimQuery, Result<GetListResponse<GetListOperationClaimListItemDto>>>
     {
         private readonly IOperationClaimRepository _operationClaimRepository;
         private readonly IMapper _mapper;
@@ -34,7 +35,7 @@ public class GetListOperationClaimQuery : IRequest<GetListResponse<GetListOperat
             _mapper = mapper;
         }
 
-        public async Task<GetListResponse<GetListOperationClaimListItemDto>> Handle(
+        public async Task<Result<GetListResponse<GetListOperationClaimListItemDto>>> Handle(
             GetListOperationClaimQuery request,
             CancellationToken cancellationToken
         )
@@ -48,7 +49,7 @@ public class GetListOperationClaimQuery : IRequest<GetListResponse<GetListOperat
             GetListResponse<GetListOperationClaimListItemDto> response = _mapper.Map<GetListResponse<GetListOperationClaimListItemDto>>(
                 operationClaims
             );
-            return response;
+            return Result<GetListResponse<GetListOperationClaimListItemDto>>.Succeed(response);
         }
     }
 }
