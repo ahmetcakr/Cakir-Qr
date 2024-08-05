@@ -1,12 +1,12 @@
 ﻿using AutoMapper;
 using Core.Application.Pipelines.Authorization;
+using Core.Application.Results;
+using MediatR;
+using Microsoft.AspNetCore.Http;
 using QrMenu.Application.Features.CompanyTypes.Constants;
 using QrMenu.Application.Features.CompanyTypes.Rules;
-using QrMenu.Application.Repositories;
+using QrMenu.Application.Services.CompaniesService;
 using QrMenu.Domain.Entities;
-using MediatR;
-using Core.Application.Results;
-using Microsoft.AspNetCore.Http;
 
 namespace QrMenu.Application.Features.CompanyTypes.Commands.Create;
 
@@ -36,7 +36,7 @@ public class CreateCompanyTypeCommand : IRequest<Result<CreatedCompanyTypeRespon
     }
 
     internal sealed class CreateCompanyTypeCommandHandler
-        (ICompanyTypeRepository companyTypeRepository,
+        (ICompanyTypeService _companyTypeService,
         IMapper mapper,
         CompanyTypeBusinessRules companyTypeBusinessRules) : IRequestHandler<CreateCompanyTypeCommand, Result<CreatedCompanyTypeResponse>>
     {
@@ -44,7 +44,7 @@ public class CreateCompanyTypeCommand : IRequest<Result<CreatedCompanyTypeRespon
         {
             CompanyType companyType = mapper.Map<CompanyType>(request);
 
-            CompanyType createdCompanyType = await companyTypeRepository.AddAsync(companyType);
+            CompanyType createdCompanyType = await _companyTypeService.AddAsync(companyType);
 
             CreatedCompanyTypeResponse response = mapper.Map<CreatedCompanyTypeResponse>(createdCompanyType);
 

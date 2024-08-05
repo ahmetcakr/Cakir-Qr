@@ -7,6 +7,7 @@ using QrMenu.Application.Repositories;
 using MediatR;
 using static QrMenu.Application.Features.OperationClaims.Constants.OperationClaimsOperationClaims;
 using Core.Application.Results;
+using QrMenu.Application.Services.OperationClaims;
 
 namespace QrMenu.Application.Features.OperationClaims.Commands.Update
 {
@@ -30,24 +31,24 @@ namespace QrMenu.Application.Features.OperationClaims.Commands.Update
 
         public class UpdateOperationClaimCommandHandler : IRequestHandler<UpdateOperationClaimCommand, Result<UpdatedOperationClaimResponse>>
         {
-            private readonly IOperationClaimRepository _operationClaimRepository;
+            private readonly IOperationClaimService _operationClaimService;
             private readonly IMapper _mapper;
             private readonly OperationClaimBusinessRules _operationClaimBusinessRules;
 
             public UpdateOperationClaimCommandHandler(
-                IOperationClaimRepository operationClaimRepository,
+                IOperationClaimService operationClaimService,
                 IMapper mapper,
                 OperationClaimBusinessRules operationClaimBusinessRules
             )
             {
-                _operationClaimRepository = operationClaimRepository;
+                _operationClaimService = operationClaimService;
                 _mapper = mapper;
                 _operationClaimBusinessRules = operationClaimBusinessRules;
             }
 
             public async Task<Result<UpdatedOperationClaimResponse>> Handle(UpdateOperationClaimCommand request, CancellationToken cancellationToken)
             {
-                OperationClaim? operationClaim = await _operationClaimRepository.GetAsync(
+                OperationClaim? operationClaim = await _operationClaimService.GetAsync(
                     predicate: oc => oc.Id == request.Id,
                     cancellationToken: cancellationToken
                 );
@@ -55,7 +56,7 @@ namespace QrMenu.Application.Features.OperationClaims.Commands.Update
                 await _operationClaimBusinessRules.OperationClaimNameShouldNotExistWhenUpdating(request.Id, request.Name);
                 OperationClaim mappedOperationClaim = _mapper.Map(request, destination: operationClaim!);
 
-                OperationClaim updatedOperationClaim = await _operationClaimRepository.UpdateAsync(mappedOperationClaim);
+                OperationClaim updatedOperationClaim = await _operationClaimService.UpdateAsync(mappedOperationClaim);
 
                 UpdatedOperationClaimResponse response = _mapper.Map<UpdatedOperationClaimResponse>(updatedOperationClaim);
                 return Result<UpdatedOperationClaimResponse>.Succeed(response);

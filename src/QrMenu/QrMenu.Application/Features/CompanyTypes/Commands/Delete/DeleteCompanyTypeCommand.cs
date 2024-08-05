@@ -8,6 +8,7 @@ using QrMenu.Domain.Entities;
 using MediatR;
 using static QrMenu.Application.Features.CompanyTypes.Constants.CompanyTypesOperationClaims;
 using Core.Application.Results;
+using QrMenu.Application.Services.CompaniesService;
 
 namespace QrMenu.Application.Features.CompanyTypes.Commands.Delete;
 
@@ -23,7 +24,7 @@ public class DeleteCompanyTypeCommand : IRequest<Result<DeletedCompanyTypeRespon
     };
 
     public class DeleteCompanyCommandHandler(
-        ICompanyTypeRepository companyTypeRepository,
+        ICompanyTypeService _companyTypeService,
         CompanyTypeBusinessRules companyTypeBusinessRules,
         IMapper mapper) : IRequestHandler<DeleteCompanyTypeCommand, Result<DeletedCompanyTypeResponse>>
     {
@@ -31,12 +32,12 @@ public class DeleteCompanyTypeCommand : IRequest<Result<DeletedCompanyTypeRespon
         {
             await companyTypeBusinessRules.CompanyTypeIdShouldBeExist(request.Id);
 
-            CompanyType companyType = await companyTypeRepository.GetAsync(x => x.Id == request.Id, cancellationToken: cancellationToken);
+            CompanyType? companyType = await _companyTypeService.GetAsync(x => x.Id == request.Id, cancellationToken: cancellationToken);
 
             if (companyType is null)
                 throw new BusinessException("CompanyType does not exist.");
 
-            await companyTypeRepository.DeleteAsync(companyType);
+            await _companyTypeService.DeleteAsync(companyType);
 
             DeletedCompanyTypeResponse response = mapper.Map<DeletedCompanyTypeResponse>(companyType);
 

@@ -5,6 +5,7 @@ using QrMenu.Application.Repositories;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Core.Application.Results;
+using QrMenu.Application.Services.OperationClaims;
 
 namespace QrMenu.Application.Features.OperationClaims.Queries.GetById;
 
@@ -12,26 +13,14 @@ public class GetByIdOperationClaimQuery : IRequest<Result<GetByIdOperationClaimR
 {
     public int Id { get; set; }
 
-    public class GetByIdOperationClaimQueryHandler : IRequestHandler<GetByIdOperationClaimQuery, Result<GetByIdOperationClaimResponse>>
+    public class GetByIdOperationClaimQueryHandler(
+        IOperationClaimService _operationClaimService,
+        IMapper _mapper,
+        OperationClaimBusinessRules _operationClaimBusinessRules) : IRequestHandler<GetByIdOperationClaimQuery, Result<GetByIdOperationClaimResponse>>
     {
-        private readonly IOperationClaimRepository _operationClaimRepository;
-        private readonly IMapper _mapper;
-        private readonly OperationClaimBusinessRules _operationClaimBusinessRules;
-
-        public GetByIdOperationClaimQueryHandler(
-            IOperationClaimRepository operationClaimRepository,
-            IMapper mapper,
-            OperationClaimBusinessRules operationClaimBusinessRules
-        )
-        {
-            _operationClaimRepository = operationClaimRepository;
-            _mapper = mapper;
-            _operationClaimBusinessRules = operationClaimBusinessRules;
-        }
-
         public async Task<Result<GetByIdOperationClaimResponse>> Handle(GetByIdOperationClaimQuery request, CancellationToken cancellationToken)
         {
-            OperationClaim? operationClaim = await _operationClaimRepository.GetAsync(
+            OperationClaim? operationClaim = await _operationClaimService.GetAsync(
                 predicate: b => b.Id == request.Id,
                 include: q => q.Include(oc => oc.UserOperationClaims),
                 cancellationToken: cancellationToken

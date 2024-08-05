@@ -7,6 +7,7 @@ using QrMenu.Application.Repositories;
 using QrMenu.Domain.Entities;
 using MediatR;
 using Core.Application.Results;
+using QrMenu.Application.Services.CompaniesService;
 
 namespace QrMenu.Application.Features.CompanyTypes.Queries.GetList;
 
@@ -40,12 +41,12 @@ public class GetListCompanyTypeQuery : IRequest<Result<GetListResponse<GetListCo
     }
 
     internal sealed class GetListCompanyTypeQueryHandler(
-        ICompanyTypeRepository companyTypeRepository,
+        ICompanyTypeService _companyTypeService,
         IMapper mapper) : IRequestHandler<GetListCompanyTypeQuery, Result<GetListResponse<GetListCompanyTypeResponse>>>
     {
         public async Task<Result<GetListResponse<GetListCompanyTypeResponse>>> Handle(GetListCompanyTypeQuery request, CancellationToken cancellationToken)
         {
-            IPaginate<CompanyType> companyTypes = await companyTypeRepository.GetListAsync(
+            IPaginate<CompanyType?>? companyTypes = await _companyTypeService.GetListAsync(
                 index: request.PageRequest.PageIndex,
                 size: request.PageRequest.PageSize,
                 cancellationToken: cancellationToken

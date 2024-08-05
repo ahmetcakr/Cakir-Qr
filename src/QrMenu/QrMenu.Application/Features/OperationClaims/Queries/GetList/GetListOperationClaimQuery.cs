@@ -1,11 +1,11 @@
 ﻿using AutoMapper;
 using Core.Application.Requests;
 using Core.Application.Responses;
+using Core.Application.Results;
 using Core.Persistence.Paging;
 using Core.Security.Entities;
-using QrMenu.Application.Repositories;
 using MediatR;
-using Core.Application.Results;
+using QrMenu.Application.Services.OperationClaims;
 
 namespace QrMenu.Application.Features.OperationClaims.Queries.GetList;
 
@@ -23,24 +23,18 @@ public class GetListOperationClaimQuery : IRequest<Result<GetListResponse<GetLis
         PageRequest = pageRequest;
     }
 
-    public class GetListOperationClaimQueryHandler
-        : IRequestHandler<GetListOperationClaimQuery, Result<GetListResponse<GetListOperationClaimListItemDto>>>
+    public class GetListOperationClaimQueryHandler(
+        IOperationClaimService _operationClaimService,
+        IMapper _mapper
+        ): IRequestHandler<GetListOperationClaimQuery, Result<GetListResponse<GetListOperationClaimListItemDto>>>
     {
-        private readonly IOperationClaimRepository _operationClaimRepository;
-        private readonly IMapper _mapper;
-
-        public GetListOperationClaimQueryHandler(IOperationClaimRepository operationClaimRepository, IMapper mapper)
-        {
-            _operationClaimRepository = operationClaimRepository;
-            _mapper = mapper;
-        }
 
         public async Task<Result<GetListResponse<GetListOperationClaimListItemDto>>> Handle(
             GetListOperationClaimQuery request,
             CancellationToken cancellationToken
         )
         {
-            IPaginate<OperationClaim> operationClaims = await _operationClaimRepository.GetListAsync(
+            IPaginate<OperationClaim?>? operationClaims = await _operationClaimService.GetListAsync(
                 index: request.PageRequest.PageIndex,
                 size: request.PageRequest.PageSize,
                 cancellationToken: cancellationToken

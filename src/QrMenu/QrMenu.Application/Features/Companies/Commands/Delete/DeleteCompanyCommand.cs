@@ -1,16 +1,13 @@
 ﻿using AutoMapper;
 using Core.Application.Pipelines.Authorization;
+using Core.Application.Results;
 using Core.CrossCuttingConcerns.Exceptions.Types;
-using QrMenu.Application.Features.Companies.Commands.Delete;
+using MediatR;
 using QrMenu.Application.Features.Companies.Constants;
 using QrMenu.Application.Features.Companies.Rules;
-using QrMenu.Application.Repositories;
+using QrMenu.Application.Services.CompaniesService;
 using QrMenu.Domain.Entities;
-using MediatR;
 using static QrMenu.Application.Features.Companies.Constants.CompaniesOperationClaims;
-using Core.Application.Results;
-using System.Net;
-using Microsoft.AspNetCore.Http;
 
 namespace QrMenu.Application.Features.Companies.Commands.Delete;
 
@@ -26,7 +23,7 @@ public class DeleteCompanyCommand : IRequest<Result<DeletedCompanyResponse>>, IS
     };
 
     public class DeleteCompanyCommandHandler(
-        ICompanyRepository companyRepository,
+        ICompanyService _companyService,
         CompanyBusinessRules companyBusinessRules,
         IMapper mapper) : IRequestHandler<DeleteCompanyCommand, Result<DeletedCompanyResponse>>
     {
@@ -34,12 +31,12 @@ public class DeleteCompanyCommand : IRequest<Result<DeletedCompanyResponse>>, IS
         {
             await companyBusinessRules.CompanyIdShouldBeExist(request.Id);
 
-            Company company = await companyRepository.GetAsync(x => x.Id == request.Id, cancellationToken: cancellationToken);
+            Company company = await _companyService.GetAsync(x => x.Id == request.Id, cancellationToken: cancellationToken);
 
             if (company is null)
                 throw new BusinessException("Company does not exist.");
 
-            await companyRepository.DeleteAsync(company);
+            await _companyService.DeleteAsync(company);
 
             DeletedCompanyResponse response = mapper.Map<DeletedCompanyResponse>(company);
 

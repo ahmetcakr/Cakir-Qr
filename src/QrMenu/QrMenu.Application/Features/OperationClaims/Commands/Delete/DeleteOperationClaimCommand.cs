@@ -8,6 +8,7 @@ using MediatR;
 using Microsoft.EntityFrameworkCore;
 using static QrMenu.Application.Features.OperationClaims.Constants.OperationClaimsOperationClaims;
 using Core.Application.Results;
+using QrMenu.Application.Services.OperationClaims;
 
 namespace QrMenu.Application.Features.OperationClaims.Commands.Delete;
 
@@ -19,31 +20,31 @@ public class DeleteOperationClaimCommand : IRequest<Result<DeletedOperationClaim
 
     public class DeleteOperationClaimCommandHandler : IRequestHandler<DeleteOperationClaimCommand, Result<DeletedOperationClaimResponse>>
     {
-        private readonly IOperationClaimRepository _operationClaimRepository;
+        private readonly IOperationClaimService _operationClaimService;
         private readonly IMapper _mapper;
         private readonly OperationClaimBusinessRules _operationClaimBusinessRules;
 
         public DeleteOperationClaimCommandHandler(
-            IOperationClaimRepository operationClaimRepository,
+            IOperationClaimService operationClaimService,
             IMapper mapper,
             OperationClaimBusinessRules operationClaimBusinessRules
         )
         {
-            _operationClaimRepository = operationClaimRepository;
+            _operationClaimService = operationClaimService;
             _mapper = mapper;
             _operationClaimBusinessRules = operationClaimBusinessRules;
         }
 
         public async Task<Result<DeletedOperationClaimResponse>> Handle(DeleteOperationClaimCommand request, CancellationToken cancellationToken)
         {
-            OperationClaim? operationClaim = await _operationClaimRepository.GetAsync(
+            OperationClaim? operationClaim = await _operationClaimService.GetAsync(
                 predicate: oc => oc.Id == request.Id,
                 include: q => q.Include(oc => oc.UserOperationClaims),
                 cancellationToken: cancellationToken
             );
             await _operationClaimBusinessRules.OperationClaimShouldExistWhenSelected(operationClaim);
 
-            await _operationClaimRepository.DeleteAsync(entity: operationClaim!);
+            await _operationClaimService.DeleteAsync(operationClaim!);
 
             DeletedOperationClaimResponse response = _mapper.Map<DeletedOperationClaimResponse>(operationClaim);
             return Result<DeletedOperationClaimResponse>.Succeed(response);

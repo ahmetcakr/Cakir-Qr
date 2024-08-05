@@ -1,12 +1,12 @@
 ﻿using AutoMapper;
 using Core.Application.Pipelines.Authorization;
+using Core.Application.Results;
 using Core.CrossCuttingConcerns.Exceptions.Types;
+using MediatR;
 using QrMenu.Application.Features.Companies.Constants;
 using QrMenu.Application.Features.Companies.Rules;
-using QrMenu.Application.Repositories;
+using QrMenu.Application.Services.CompaniesService;
 using QrMenu.Domain.Entities;
-using MediatR;
-using Core.Application.Results;
 
 namespace QrMenu.Application.Features.Companies.Commands.Update;
 
@@ -50,7 +50,7 @@ public class UpdateCompanyCommand : IRequest<Result<UpdatedCompanyResponse>>, IS
     }
 
     internal sealed class UpdateCompanyCommandHandler(
-        ICompanyRepository companyRepository,
+        ICompanyService _companyService,
         IMapper mapper,
         CompanyBusinessRules companyBusinessRules) : IRequestHandler<UpdateCompanyCommand, Result<UpdatedCompanyResponse>>
     {
@@ -58,14 +58,14 @@ public class UpdateCompanyCommand : IRequest<Result<UpdatedCompanyResponse>>, IS
         {
             await companyBusinessRules.CompanyIdShouldBeExist(request.Id);
 
-            Company company = await companyRepository.GetAsync(x => x.Id == request.Id, cancellationToken: cancellationToken);
+            Company company = await _companyService.GetAsync(x => x.Id == request.Id, cancellationToken: cancellationToken);
 
             if (company is null)
                 throw new BusinessException("Company does not exist.");
 
             mapper.Map(request, company);
 
-            Company updatedCompany = await companyRepository.UpdateAsync(company);
+            Company updatedCompany = await _companyService.UpdateAsync(company);
 
             UpdatedCompanyResponse response = mapper.Map<UpdatedCompanyResponse>(updatedCompany);
 

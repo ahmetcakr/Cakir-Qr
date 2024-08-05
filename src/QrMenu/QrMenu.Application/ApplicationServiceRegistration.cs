@@ -20,6 +20,9 @@ using Microsoft.Extensions.DependencyInjection;
 using System.Reflection;
 using Core.QrCodeGenerator.Services;
 using Core.QrCodeGenerator.Implementations;
+using QrMenu.Application.Features.OperationClaims.Rules;
+using QrMenu.Application.Features.UserOperationClaims.Rules;
+using QrMenu.Application.Services.OperationClaims;
 
 namespace QrMenu.Application;
 
@@ -51,9 +54,16 @@ public static class ApplicationServiceRegistration
         services.AddScoped<IAuthService, AuthManager>();
         services.AddScoped<IAuthenticatorService, AuthenticatorManager>();
         services.AddScoped<IUserService, UserManager>();
+        services.AddScoped<ICompanyService, CompanyManager>();
+        services.AddScoped<ICompanyTypeService, CompanyTypeManager>();
+        services.AddScoped<IOperationClaimService, OperationClaimManager>();
 
         services.AddScoped<CompanyBusinessRules>();
         services.AddScoped<CompanyTypeBusinessRules>();
+        services.AddScoped<CompanyTypeBusinessRules>();
+        services.AddScoped<CompanyBusinessRules>();
+        services.AddScoped<OperationClaimBusinessRules>();
+        services.AddScoped<UserOperationClaimBusinessRules>();
     }
 
     public static IServiceCollection AddSubClassesOfType(

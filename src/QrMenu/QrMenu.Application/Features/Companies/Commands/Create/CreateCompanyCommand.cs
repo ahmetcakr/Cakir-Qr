@@ -7,6 +7,7 @@ using QrMenu.Domain.Entities;
 using MediatR;
 using Core.Application.Results;
 using Microsoft.AspNetCore.Http;
+using QrMenu.Application.Services.CompaniesService;
 
 namespace QrMenu.Application.Features.Companies.Commands.Create;
 
@@ -48,7 +49,7 @@ public class CreateCompanyCommand : IRequest<Result<CreatedCompanyResponse>>, IS
     }
 
     internal sealed class CreateCompanyCommandHandler
-        (ICompanyRepository companyRepository,
+        (ICompanyService _companyService,
         IMapper mapper,
         CompanyBusinessRules companyBusinessRules) : IRequestHandler<CreateCompanyCommand, Result<CreatedCompanyResponse>>
     {
@@ -56,7 +57,7 @@ public class CreateCompanyCommand : IRequest<Result<CreatedCompanyResponse>>, IS
         {
             Company company = mapper.Map<Company>(request);
 
-            Company createdCompany = await companyRepository.AddAsync(company);
+            Company createdCompany = await _companyService.AddAsync(company);
 
             CreatedCompanyResponse response = mapper.Map<CreatedCompanyResponse>(createdCompany);
 
