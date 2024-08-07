@@ -1,8 +1,7 @@
-﻿using Core.Security.Extensions;
-using Core.Security.JWT;
+
+using Core.Security.Extensions;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using System.Security.Claims;
 
 namespace QrMenu.WebAPI.Controllers;
 
