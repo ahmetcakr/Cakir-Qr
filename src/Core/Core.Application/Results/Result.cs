@@ -10,6 +10,7 @@ public sealed class Result<T>
 
     public int StatusCode { get; set; } = 200;
 
+    public Result() { }
 
     public Result(T data)
     {
