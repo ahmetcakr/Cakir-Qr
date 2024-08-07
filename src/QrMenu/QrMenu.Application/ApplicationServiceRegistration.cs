@@ -23,6 +23,10 @@ using Core.QrCodeGenerator.Implementations;
 using QrMenu.Application.Features.OperationClaims.Rules;
 using QrMenu.Application.Features.UserOperationClaims.Rules;
 using QrMenu.Application.Services.OperationClaims;
+using QrMenu.Application.Features.Categories.Rules;
+using QrMenu.Application.Services.CategoriesService;
+using QrMenu.Application.Services.ItemsService;
+using QrMenu.Application.Features.Items.Rules;
 
 namespace QrMenu.Application;
 
@@ -54,9 +58,12 @@ public static class ApplicationServiceRegistration
         services.AddScoped<IAuthService, AuthManager>();
         services.AddScoped<IAuthenticatorService, AuthenticatorManager>();
         services.AddScoped<IUserService, UserManager>();
+        services.AddScoped<IOperationClaimService, OperationClaimManager>();
+
         services.AddScoped<ICompanyService, CompanyManager>();
         services.AddScoped<ICompanyTypeService, CompanyTypeManager>();
-        services.AddScoped<IOperationClaimService, OperationClaimManager>();
+        services.AddScoped<ICategoryService, CategoryManager>();
+        services.AddScoped<IItemService, ItemManager>();
 
         services.AddScoped<CompanyBusinessRules>();
         services.AddScoped<CompanyTypeBusinessRules>();
@@ -64,6 +71,8 @@ public static class ApplicationServiceRegistration
         services.AddScoped<CompanyBusinessRules>();
         services.AddScoped<OperationClaimBusinessRules>();
         services.AddScoped<UserOperationClaimBusinessRules>();
+        services.AddScoped<CategoryBusinessRules>();
+        services.AddScoped<ItemBusinessRules>();
     }
 
     public static IServiceCollection AddSubClassesOfType(
