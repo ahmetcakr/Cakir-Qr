@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Core.Application.Pipelines.Authorization;
+using Core.Application.Pipelines.Caching;
 using Core.Application.Results;
 using MediatR;
 using Microsoft.AspNetCore.Http;
@@ -10,7 +11,7 @@ using QrMenu.Domain.Entities;
 
 namespace QrMenu.Application.Features.CompanyTypes.Commands.Create;
 
-public class CreateCompanyTypeCommand : IRequest<Result<CreatedCompanyTypeResponse>>, ISecuredRequest
+public class CreateCompanyTypeCommand : IRequest<Result<CreatedCompanyTypeResponse>>, ISecuredRequest, ICacheRemoverRequest
 {
     public string TypeName { get; set; }
     public string Description { get; set; }
@@ -22,6 +23,10 @@ public class CreateCompanyTypeCommand : IRequest<Result<CreatedCompanyTypeRespon
         CompanyTypesOperationClaims.Write,
         CompanyTypesOperationClaims.Add
     };
+
+    public bool BypassCache => false;
+    public string? CacheKey => "";
+    public string? CacheGroupKey => "GetCompanyTypes";
 
     public CreateCompanyTypeCommand()
     {

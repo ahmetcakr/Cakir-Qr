@@ -9,10 +9,11 @@ using Core.CrossCuttingConcerns.Exceptions.Types;
 using Core.Application.Results;
 using Microsoft.AspNetCore.Http;
 using QrMenu.Application.Services.CategoriesService;
+using Core.Application.Pipelines.Caching;
 
 namespace QrMenu.Application.Features.Categories.Commands.Delete
 {
-    public class DeleteCategoryCommand : IRequest<Result<DeletedCategoryResponse>>, ISecuredRequest
+    public class DeleteCategoryCommand : IRequest<Result<DeletedCategoryResponse>>, ISecuredRequest, ICacheRemoverRequest
     {
         public int Id { get; set; }
 
@@ -22,6 +23,10 @@ namespace QrMenu.Application.Features.Categories.Commands.Delete
             CategoryOperationClaims.Delete, 
             CategoryOperationClaims.Write
         };
+
+        public bool BypassCache => false;
+        public string? CacheKey => "";
+        public string? CacheGroupKey => "GetCategories";
 
         internal sealed class DeleteCategoryCommandHandler : IRequestHandler<DeleteCategoryCommand, Result<DeletedCategoryResponse>>
         {

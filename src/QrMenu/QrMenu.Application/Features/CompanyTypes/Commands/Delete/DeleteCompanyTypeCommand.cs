@@ -9,10 +9,11 @@ using MediatR;
 using static QrMenu.Application.Features.CompanyTypes.Constants.CompanyTypesOperationClaims;
 using Core.Application.Results;
 using QrMenu.Application.Services.CompaniesService;
+using Core.Application.Pipelines.Caching;
 
 namespace QrMenu.Application.Features.CompanyTypes.Commands.Delete;
 
-public class DeleteCompanyTypeCommand : IRequest<Result<DeletedCompanyTypeResponse>>, ISecuredRequest
+public class DeleteCompanyTypeCommand : IRequest<Result<DeletedCompanyTypeResponse>>, ISecuredRequest, ICacheRemoverRequest
 {
     public int Id { get; set; }
 
@@ -22,6 +23,10 @@ public class DeleteCompanyTypeCommand : IRequest<Result<DeletedCompanyTypeRespon
         CompanyTypesOperationClaims.Delete,
         Write
     };
+
+    public bool BypassCache => false;
+    public string? CacheKey => "";
+    public string? CacheGroupKey => "GetCompanyTypes";
 
     public class DeleteCompanyCommandHandler(
         ICompanyTypeService _companyTypeService,

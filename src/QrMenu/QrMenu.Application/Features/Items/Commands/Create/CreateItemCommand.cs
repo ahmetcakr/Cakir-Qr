@@ -7,10 +7,11 @@ using Core.Application.Results;
 using Microsoft.AspNetCore.Http;
 using MediatR;
 using QrMenu.Application.Services.ItemsService;
+using Core.Application.Pipelines.Caching;
 
 namespace QrMenu.Application.Features.Items.Commands.Create
 {
-    public class CreateItemCommand : IRequest<Result<CreatedItemResponse>>, ISecuredRequest
+    public class CreateItemCommand : IRequest<Result<CreatedItemResponse>>, ISecuredRequest, ICacheRemoverRequest
     {
         public int CategoryId { get; set; }
         public string ItemName { get; set; }
@@ -24,6 +25,12 @@ namespace QrMenu.Application.Features.Items.Commands.Create
             ItemOperationClaims.Write, 
             ItemOperationClaims.Add
         };
+
+        public bool BypassCache => false;
+
+        public string? CacheKey => "";
+
+        public string? CacheGroupKey => "GetItems";
 
         internal sealed class CreateItemCommandHandler : IRequestHandler<CreateItemCommand, Result<CreatedItemResponse>>
         {

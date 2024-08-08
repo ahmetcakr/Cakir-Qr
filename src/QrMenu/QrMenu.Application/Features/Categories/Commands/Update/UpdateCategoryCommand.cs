@@ -9,10 +9,11 @@ using Core.CrossCuttingConcerns.Exceptions.Types;
 using Core.Application.Results;
 using Microsoft.AspNetCore.Http;
 using QrMenu.Application.Services.CategoriesService;
+using Core.Application.Pipelines.Caching;
 
 namespace QrMenu.Application.Features.Categories.Commands.Update
 {
-    public class UpdateCategoryCommand : IRequest<Result<UpdatedCategoryResponse>>, ISecuredRequest
+    public class UpdateCategoryCommand : IRequest<Result<UpdatedCategoryResponse>>, ISecuredRequest, ICacheRemoverRequest
     {
         public int Id { get; set; }
         public int CompanyId { get; set; }
@@ -25,6 +26,10 @@ public string Description { get; set; }
             CategoryOperationClaims.Write, 
             CategoryOperationClaims.Update
         };
+
+        public bool BypassCache => false;
+        public string? CacheKey => "";
+        public string? CacheGroupKey => "GetCategories";
 
         internal sealed class UpdateCategoryCommandHandler(
             ICategoryService _categoryService,

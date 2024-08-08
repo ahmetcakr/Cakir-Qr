@@ -9,17 +9,18 @@ using Core.CrossCuttingConcerns.Exceptions.Types;
 using Core.Application.Results;
 using Microsoft.AspNetCore.Http;
 using QrMenu.Application.Services.ItemsService;
+using Core.Application.Pipelines.Caching;
 
 namespace QrMenu.Application.Features.Items.Commands.Update
 {
-    public class UpdateItemCommand : IRequest<Result<UpdatedItemResponse>>, ISecuredRequest
+    public class UpdateItemCommand : IRequest<Result<UpdatedItemResponse>>, ISecuredRequest, ICacheRemoverRequest
     {
         public int Id { get; set; }
         public int CategoryId { get; set; }
-public string ItemName { get; set; }
-public string Description { get; set; }
-public decimal Price { get; set; }
-public bool IsAvailable { get; set; }
+        public string ItemName { get; set; }
+        public string Description { get; set; }
+        public decimal Price { get; set; }
+        public bool IsAvailable { get; set; }
 
         public string[] Roles => new [] 
         {
@@ -27,6 +28,12 @@ public bool IsAvailable { get; set; }
             ItemOperationClaims.Write, 
             ItemOperationClaims.Update
         };
+
+        public bool BypassCache => false;
+
+        public string? CacheKey => "";
+
+        public string? CacheGroupKey => "GetItems";
 
         internal sealed class UpdateItemCommandHandler(
             IItemService _itemService,

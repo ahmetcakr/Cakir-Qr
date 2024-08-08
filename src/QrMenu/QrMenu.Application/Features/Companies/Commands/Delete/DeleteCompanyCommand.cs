@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Core.Application.Pipelines.Authorization;
+using Core.Application.Pipelines.Caching;
 using Core.Application.Results;
 using Core.CrossCuttingConcerns.Exceptions.Types;
 using MediatR;
@@ -11,7 +12,7 @@ using static QrMenu.Application.Features.Companies.Constants.CompaniesOperationC
 
 namespace QrMenu.Application.Features.Companies.Commands.Delete;
 
-public class DeleteCompanyCommand : IRequest<Result<DeletedCompanyResponse>>, ISecuredRequest
+public class DeleteCompanyCommand : IRequest<Result<DeletedCompanyResponse>>, ISecuredRequest, ICacheRemoverRequest
 {
     public int Id { get; set; }
 
@@ -21,6 +22,10 @@ public class DeleteCompanyCommand : IRequest<Result<DeletedCompanyResponse>>, IS
         CompaniesOperationClaims.Delete,
         Write
     };
+
+    public bool BypassCache => false;
+    public string? CacheKey => "";
+    public string? CacheGroupKey => "GetCompanies";
 
     public class DeleteCompanyCommandHandler(
         ICompanyService _companyService,

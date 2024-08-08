@@ -8,10 +8,11 @@ using MediatR;
 using Core.Application.Results;
 using Microsoft.AspNetCore.Http;
 using QrMenu.Application.Services.CompaniesService;
+using Core.Application.Pipelines.Caching;
 
 namespace QrMenu.Application.Features.Companies.Commands.Create;
 
-public class CreateCompanyCommand : IRequest<Result<CreatedCompanyResponse>>, ISecuredRequest
+public class CreateCompanyCommand : IRequest<Result<CreatedCompanyResponse>>, ISecuredRequest, ICacheRemoverRequest
 {
     public string CompanyName { get; set; }
     public int CompanyTypeId { get; set; }
@@ -27,6 +28,10 @@ public class CreateCompanyCommand : IRequest<Result<CreatedCompanyResponse>>, IS
         CompaniesOperationClaims.Write, 
         CompaniesOperationClaims.Add
     };
+
+    public bool BypassCache => false;
+    public string? CacheKey => "";
+    public string? CacheGroupKey => "GetCompanies";
 
     public CreateCompanyCommand()
     {

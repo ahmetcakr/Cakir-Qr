@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Core.Application.Pipelines.Authorization;
+using Core.Application.Pipelines.Caching;
 using Core.Application.Results;
 using Core.CrossCuttingConcerns.Exceptions.Types;
 using MediatR;
@@ -10,7 +11,7 @@ using QrMenu.Domain.Entities;
 
 namespace QrMenu.Application.Features.Companies.Commands.Update;
 
-public class UpdateCompanyCommand : IRequest<Result<UpdatedCompanyResponse>>, ISecuredRequest
+public class UpdateCompanyCommand : IRequest<Result<UpdatedCompanyResponse>>, ISecuredRequest, ICacheRemoverRequest
 {
     public int Id { get; set; }
     public string CompanyName { get; set; }
@@ -26,6 +27,10 @@ public class UpdateCompanyCommand : IRequest<Result<UpdatedCompanyResponse>>, IS
         CompaniesOperationClaims.Write,
         CompaniesOperationClaims.Update
     };
+
+    public bool BypassCache => false;
+    public string? CacheKey => "";
+    public string? CacheGroupKey => "GetCompanies";
 
     public UpdateCompanyCommand()
     {

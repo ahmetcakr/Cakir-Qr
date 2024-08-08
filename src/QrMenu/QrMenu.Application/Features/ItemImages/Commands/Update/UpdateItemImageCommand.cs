@@ -9,10 +9,11 @@ using Core.CrossCuttingConcerns.Exceptions.Types;
 using Core.Application.Results;
 using Microsoft.AspNetCore.Http;
 using QrMenu.Application.Services.ItemImagesService;
+using Core.Application.Pipelines.Caching;
 
 namespace QrMenu.Application.Features.ItemImages.Commands.Update
 {
-    public class UpdateItemImageCommand : IRequest<Result<UpdatedItemImageResponse>>, ISecuredRequest
+    public class UpdateItemImageCommand : IRequest<Result<UpdatedItemImageResponse>>, ISecuredRequest, ICacheRemoverRequest
     {
         public int Id { get; set; }
         public int ItemId { get; set; }
@@ -25,6 +26,10 @@ namespace QrMenu.Application.Features.ItemImages.Commands.Update
             ItemImageOperationClaims.Write, 
             ItemImageOperationClaims.Update
         };
+
+        public bool BypassCache => false;
+        public string? CacheKey => "";
+        public string? CacheGroupKey => "GetItemImages";
 
         internal sealed class UpdateItemImageCommandHandler(
             IItemImageService _itemimageService,

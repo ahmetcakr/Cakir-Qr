@@ -1,6 +1,7 @@
 
 using AutoMapper;
 using Core.Application.Pipelines.Authorization;
+using Core.Application.Pipelines.Caching;
 using Core.Application.Results;
 using Core.Helpers.ImageHelper;
 using MediatR;
@@ -13,7 +14,7 @@ using System.Text.Json.Serialization;
 
 namespace QrMenu.Application.Features.ItemImages.Commands.Create;
 
-public class CreateItemImageCommand : IRequest<Result<CreatedItemImageResponse>>, ISecuredRequest
+public class CreateItemImageCommand : IRequest<Result<CreatedItemImageResponse>>, ISecuredRequest, ICacheRemoverRequest
 {
     public int ItemId { get; set; }
     public IFormFile Image { get; set; }
@@ -26,6 +27,12 @@ public class CreateItemImageCommand : IRequest<Result<CreatedItemImageResponse>>
         ItemImageOperationClaims.Write,
         ItemImageOperationClaims.Add
     };
+
+    public bool BypassCache => false;
+
+    public string? CacheKey => "";
+
+    public string? CacheGroupKey => "GetItemImages";
 
     internal sealed class CreateItemImageCommandHandler : IRequestHandler<CreateItemImageCommand, Result<CreatedItemImageResponse>>
     {

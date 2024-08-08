@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Core.Application.Pipelines.Authorization;
+using Core.Application.Pipelines.Caching;
 using Core.Application.Results;
 using Core.CrossCuttingConcerns.Exceptions.Types;
 using MediatR;
@@ -9,7 +10,7 @@ using QrMenu.Application.Services.CompaniesService;
 
 namespace QrMenu.Application.Features.CompanyTypes.Commands.Update;
 
-public class UpdateCompanyTypeCommand : IRequest<Result<UpdatedCompanyTypeResponse>>, ISecuredRequest
+public class UpdateCompanyTypeCommand : IRequest<Result<UpdatedCompanyTypeResponse>>, ISecuredRequest, ICacheRemoverRequest
 {
     public int Id { get; set; }
     public string TypeName { get; set; }
@@ -21,6 +22,10 @@ public class UpdateCompanyTypeCommand : IRequest<Result<UpdatedCompanyTypeRespon
         CompanyTypesOperationClaims.Write,
         CompanyTypesOperationClaims.Update
     };
+
+    public bool BypassCache => false;
+    public string? CacheKey => "";
+    public string? CacheGroupKey => "GetCompanyTypes";
 
     public UpdateCompanyTypeCommand()
     {

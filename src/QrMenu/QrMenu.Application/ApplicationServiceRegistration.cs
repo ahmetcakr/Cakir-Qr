@@ -29,6 +29,9 @@ using QrMenu.Application.Services.ItemsService;
 using QrMenu.Application.Features.Items.Rules;
 using QrMenu.Application.Services.ItemImagesService;
 using QrMenu.Application.Features.ItemImages.Rules;
+using QrMenu.Application.Features.Menus.Rules;
+using QrMenu.Application.Services.MenusService;
+using MediatR;
 
 namespace QrMenu.Application;
 
@@ -53,6 +56,7 @@ public static class ApplicationServiceRegistration
 
         services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
 
+        services.AddTransient(typeof(IPipelineBehavior<,>), typeof(CacheRemovingBehavior<,>));
         services.AddSingleton<IQrCodeGeneratorService, QrCodeGeneratorService>();
         services.AddSingleton<IMailService, MailKitMailService>();
         services.AddSingleton<LoggerServiceBase, FileLogger>();
@@ -67,6 +71,7 @@ public static class ApplicationServiceRegistration
         services.AddScoped<ICategoryService, CategoryManager>();
         services.AddScoped<IItemService, ItemManager>();
         services.AddScoped<IItemImageService, ItemImageManager>();
+        services.AddScoped<IMenuService, MenuManager>();
 
         services.AddScoped<CompanyBusinessRules>();
         services.AddScoped<CompanyTypeBusinessRules>();
@@ -77,6 +82,7 @@ public static class ApplicationServiceRegistration
         services.AddScoped<CategoryBusinessRules>();
         services.AddScoped<ItemBusinessRules>();
         services.AddScoped<ItemImageBusinessRules>();
+        services.AddScoped<MenuBusinessRules>();
     }
 
     public static IServiceCollection AddSubClassesOfType(

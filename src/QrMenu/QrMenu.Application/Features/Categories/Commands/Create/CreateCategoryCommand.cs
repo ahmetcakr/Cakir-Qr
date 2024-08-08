@@ -1,6 +1,7 @@
 
 using AutoMapper;
 using Core.Application.Pipelines.Authorization;
+using Core.Application.Pipelines.Caching;
 using Core.Application.Results;
 using MediatR;
 using Microsoft.AspNetCore.Http;
@@ -10,7 +11,7 @@ using QrMenu.Domain.Entities;
 
 namespace QrMenu.Application.Features.Categories.Commands.Create
 {
-    public class CreateCategoryCommand : IRequest<Result<CreatedCategoryResponse>>, ISecuredRequest
+    public class CreateCategoryCommand : IRequest<Result<CreatedCategoryResponse>>, ISecuredRequest, ICacheRemoverRequest
     {
         public int CompanyId { get; set; }
         public string CategoryName { get; set; }
@@ -22,6 +23,10 @@ namespace QrMenu.Application.Features.Categories.Commands.Create
             CategoryOperationClaims.Write, 
             CategoryOperationClaims.Add
         };
+
+        public bool BypassCache => false;
+        public string? CacheKey => "";
+        public string? CacheGroupKey => "GetCategories";
 
         internal sealed class CreateCategoryCommandHandler : IRequestHandler<CreateCategoryCommand, Result<CreatedCategoryResponse>>
         {
