@@ -33,7 +33,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "QrMenu.Application", "src\Q
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "QrMenu.WebAPI", "src\QrMenu\QrMenu.WebAPI\QrMenu.WebAPI.csproj", "{71210B60-5F71-4994-A8DD-5C931534B6EE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Core.QrCodeGenerator", "src\Core\Core.QrCodeGenerator\Core.QrCodeGenerator.csproj", "{993D7BA9-B42A-4233-8769-FCA2217B8EC2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Core.QrCodeGenerator", "src\Core\Core.QrCodeGenerator\Core.QrCodeGenerator.csproj", "{993D7BA9-B42A-4233-8769-FCA2217B8EC2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Core.Helpers", "src\Core\Core.Helpers\Core.Helpers.csproj", "{41F52A1E-6B2B-405F-BB30-99E1FF4E7CA1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -93,6 +95,10 @@ Global
 		{993D7BA9-B42A-4233-8769-FCA2217B8EC2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{993D7BA9-B42A-4233-8769-FCA2217B8EC2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{993D7BA9-B42A-4233-8769-FCA2217B8EC2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{41F52A1E-6B2B-405F-BB30-99E1FF4E7CA1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{41F52A1E-6B2B-405F-BB30-99E1FF4E7CA1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{41F52A1E-6B2B-405F-BB30-99E1FF4E7CA1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{41F52A1E-6B2B-405F-BB30-99E1FF4E7CA1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -113,6 +119,7 @@ Global
 		{74F74BFE-B911-4881-BFEA-7BD3858A75B2} = {296E0931-70C1-48F1-A43F-02F866ED5F69}
 		{71210B60-5F71-4994-A8DD-5C931534B6EE} = {296E0931-70C1-48F1-A43F-02F866ED5F69}
 		{993D7BA9-B42A-4233-8769-FCA2217B8EC2} = {F1D23960-07C4-441B-82F5-33D15BE34CD6}
+		{41F52A1E-6B2B-405F-BB30-99E1FF4E7CA1} = {F1D23960-07C4-441B-82F5-33D15BE34CD6}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {645D1630-DFB7-4074-821A-57A82C21C558}

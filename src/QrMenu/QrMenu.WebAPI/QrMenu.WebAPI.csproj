@@ -28,6 +28,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\Core\Core.Helpers\Core.Helpers.csproj" />
     <ProjectReference Include="..\..\Core\Core.Mailing\Core.Mailing.csproj" />
     <ProjectReference Include="..\..\Core\Core.WebAPI\Core.WebAPI.csproj" />
     <ProjectReference Include="..\QrMenu.Application\QrMenu.Application.csproj" />
