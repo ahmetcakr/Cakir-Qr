@@ -3,11 +3,11 @@ namespace QrMenu.Application.Features.Items.Constants
 {
     public class ItemOperationClaims
     {
-        public const string Admin = "ıtems.admin";
-        public const string Read = "ıtems.read";
-        public const string Write = "ıtems.write";
-        public const string Add = "ıtems.add";
-        public const string Update = "ıtems.update";
-        public const string Delete = "ıtems.delete";
+        public const string Admin = "items.admin";
+        public const string Read = "items.read";
+        public const string Write = "items.write";
+        public const string Add = "items.add";
+        public const string Update = "items.update";
+        public const string Delete = "items.delete";
     }
 }

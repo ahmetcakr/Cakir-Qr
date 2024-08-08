@@ -27,6 +27,8 @@ using QrMenu.Application.Features.Categories.Rules;
 using QrMenu.Application.Services.CategoriesService;
 using QrMenu.Application.Services.ItemsService;
 using QrMenu.Application.Features.Items.Rules;
+using QrMenu.Application.Services.ItemImagesService;
+using QrMenu.Application.Features.ItemImages.Rules;
 
 namespace QrMenu.Application;
 
@@ -64,6 +66,7 @@ public static class ApplicationServiceRegistration
         services.AddScoped<ICompanyTypeService, CompanyTypeManager>();
         services.AddScoped<ICategoryService, CategoryManager>();
         services.AddScoped<IItemService, ItemManager>();
+        services.AddScoped<IItemImageService, ItemImageManager>();
 
         services.AddScoped<CompanyBusinessRules>();
         services.AddScoped<CompanyTypeBusinessRules>();
@@ -73,6 +76,7 @@ public static class ApplicationServiceRegistration
         services.AddScoped<UserOperationClaimBusinessRules>();
         services.AddScoped<CategoryBusinessRules>();
         services.AddScoped<ItemBusinessRules>();
+        services.AddScoped<ItemImageBusinessRules>();
     }
 
     public static IServiceCollection AddSubClassesOfType(

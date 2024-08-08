@@ -28,6 +28,7 @@
     <ProjectReference Include="..\..\Core\Core.Application\Core.Application.csproj" />
     <ProjectReference Include="..\..\Core\Core.CrossCuttingConcerns\Core.CrossCuttingConcerns.csproj" />
     <ProjectReference Include="..\..\Core\Core.ElasticSearch\Core.ElasticSearch.csproj" />
+    <ProjectReference Include="..\..\Core\Core.Helpers\Core.Helpers.csproj" />
     <ProjectReference Include="..\..\Core\Core.Mailing\Core.Mailing.csproj" />
     <ProjectReference Include="..\..\Core\Core.QrCodeGenerator\Core.QrCodeGenerator.csproj" />
     <ProjectReference Include="..\..\Core\Core.Security\Core.Security.csproj" />
