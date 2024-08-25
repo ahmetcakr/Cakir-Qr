@@ -7,7 +7,6 @@ public class Category : Entity<int>
     public int CompanyId { get; set; }
     public string CategoryName { get; set; }
     public string Description { get; set; }
-
     public virtual Company Company { get; set; }
     public virtual ICollection<Item> Items { get; set; }
 

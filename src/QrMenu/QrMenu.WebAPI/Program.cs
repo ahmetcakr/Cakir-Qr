@@ -11,12 +11,15 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.SwaggerUI;
+using MassTransit;
+using QrMenu.WebAPI.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllers();
 builder.Configuration.AddJsonFile("appsettings.json");
+builder.Services.RegisterMassTransit(builder.Configuration);
 builder.Services.AddApplicationServices();
 builder.Services.AddSecurityServices();
 builder.Services.AddPersistenceServices(builder.Configuration);

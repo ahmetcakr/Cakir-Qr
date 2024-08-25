@@ -8,6 +8,7 @@ using QrMenu.Application.Features.Items.Commands.Delete;
 using QrMenu.Application.Features.Items.Commands.Update;
 using QrMenu.Application.Features.Items.Queries.GetById;
 using QrMenu.Application.Features.Items.Queries.GetList;
+using QrMenu.Application.Features.Items.Queries.GetListByCategoryId;
 
 namespace QrMenu.WebAPI.Controllers;
 
@@ -28,6 +29,13 @@ public class ItemsController : BaseController
     {
         GetListItemQuery getListItemQuery = new() { PageRequest = pageRequest };
         Result<GetListResponse<GetListItemResponse>> result = await Mediator.Send(getListItemQuery);
+        return Ok(result);
+    }
+
+    [HttpGet("Category/{CategoryId}")]
+    public async Task<IActionResult> GetListByCategoryId([FromRoute] GetListByCategoryIdItemQuery getListByCategoryIdItemQuery)
+    {
+        Result<List<GetListByCategoryIdItemResponse>> result = await Mediator.Send(getListByCategoryIdItemQuery);
         return Ok(result);
     }
 

@@ -13,7 +13,7 @@ public class Menu : Entity<int>
     public string MenuName { get; set; }
     public string Description { get; set; } 
     public virtual Company Company { get; set; }
-    public virtual MenuQrCode MenuQrCode { get; set; }
+    public virtual ICollection<MenuQrCode> MenuQrCodes { get; set; } = new List<MenuQrCode>();
 
     public Menu()
     {
