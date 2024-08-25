@@ -6,7 +6,6 @@ using QrMenu.Domain.Entities;
 using Microsoft.EntityFrameworkCore.Query;
 using System.Linq.Expressions;
 
-
 namespace QrMenu.Application.Services.ItemsService;
     public class ItemManager(
         IItemRepository itemRepository,
@@ -44,6 +43,11 @@ namespace QrMenu.Application.Services.ItemsService;
         );
 
         return response;
+    }
+
+    public async Task<List<Item>> GetListByCategoryIdAsync(int categoryId)
+    {
+        return await itemRepository.GetListItemsByCategoryId(categoryId);
     }
 
     public async Task<Item> UpdateAsync(Item request)
