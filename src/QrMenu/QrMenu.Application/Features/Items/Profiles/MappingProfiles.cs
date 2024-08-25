@@ -7,6 +7,7 @@ using QrMenu.Application.Features.Items.Commands.Delete;
 using QrMenu.Application.Features.Items.Commands.Update;
 using QrMenu.Application.Features.Items.Queries.GetById;
 using QrMenu.Application.Features.Items.Queries.GetList;
+using QrMenu.Application.Features.Items.Queries.GetListByCategoryId;
 using QrMenu.Domain.Entities;
 
 namespace QrMenu.Application.Features.Items.Profiles;
@@ -29,6 +30,11 @@ public class MappingProfiles : Profile
 
         CreateMap<Item, GetListItemResponse>().ReverseMap();
         CreateMap<Item, GetListItemQuery>().ReverseMap();
+
+        CreateMap<Item, GetListByCategoryIdItemResponse>().ReverseMap();
+        //CreateMap<Item, GetListByCategoryIdItemQuery>().ReverseMap();
+
+        //CreateMap<List<Item>, List<GetListByCategoryIdItemResponse>>().ReverseMap();
 
         CreateMap<IPaginate<Item>, GetListResponse<GetListItemResponse>>().ReverseMap();
     }
