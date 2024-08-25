@@ -19,8 +19,7 @@ public class MenuQrCodeConfiguration : IEntityTypeConfiguration<MenuQrCode>
             .IsRequired();
 
         builder.HasOne(e => e.Menu)
-            .WithOne(e => e.MenuQrCode)
-            .HasForeignKey<MenuQrCode>(e => e.MenuId)
+            .WithMany(e => e.MenuQrCodes)
             .OnDelete(DeleteBehavior.Cascade);
 
         builder.Property(e => e.MenuId)
