@@ -19,6 +19,14 @@ public class AuthorizationBehavior<TRequest, TResponse> : IPipelineBehavior<TReq
 
     public async Task<TResponse> Handle(TRequest request, RequestHandlerDelegate<TResponse> next, CancellationToken cancellationToken)
     {
+
+
+        bool isAuthenticated = _httpContextAccessor.HttpContext.Equals(null) ? false : _httpContextAccessor.HttpContext.User.Identity.IsAuthenticated;
+
+        if (!isAuthenticated)
+            throw new AuthorizationException("You are not authenticated.");
+
+
         List<string>? userRoleClaims = _httpContextAccessor.HttpContext.User.ClaimRoles();
 
         if (userRoleClaims == null)

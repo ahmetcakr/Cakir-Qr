@@ -47,9 +47,14 @@ public class CreateItemImageCommand : IRequest<Result<CreatedItemImageResponse>>
 
         public async Task<Result<CreatedItemImageResponse>> Handle(CreateItemImageCommand request, CancellationToken cancellationToken)
         {
+
+            byte[] bytes = await ImageHelper.ConvertToByteArrayAsync(request.Image);
+
+            var scaledImage = ImageHelper.ScaleImage(bytes, 500, 500);
+
             ItemImage itemImage = new()
             {
-                Image = await ImageHelper.ConvertToByteArrayAsync(request.Image),
+                Image = scaledImage,
                 Description = request.Description,
                 ItemId = request.ItemId
             };

@@ -1,4 +1,5 @@
 ﻿using MailKit.Net.Smtp;
+using MailKit.Security;
 using Microsoft.Extensions.Configuration;
 using MimeKit;
 using MimeKit.Cryptography;
@@ -113,12 +114,21 @@ public class MailKitMailService : IMailService
         var credentials = new NetworkCredential(_mailSettings.UserName, _mailSettings.Password);
 
         smtp = new SmtpClient();
-        smtp.Connect(_mailSettings.Server, _mailSettings.Port);
+        smtp.Connect(_mailSettings.Server, _mailSettings.Port, SecureSocketOptions.StartTls);
+
         if (_mailSettings.AuthenticationRequired)
         {
-            smtp.Authenticate(credentials);
+            try
+            {
+                smtp.Authenticate(_mailSettings.UserName, _mailSettings.Password);
+            }
+            catch (AuthenticationException ex)
+            {
+                throw new Exception("SMTP kimlik doğrulama hatası: " + ex.Message);
+            }
         }
     }
+    
 
     private AsymmetricKeyParameter ReadPrivateKeyFromPemEncodedString()
     {

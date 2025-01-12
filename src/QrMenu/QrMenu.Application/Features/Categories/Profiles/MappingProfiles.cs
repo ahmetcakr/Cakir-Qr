@@ -30,13 +30,6 @@ public class MappingProfiles : Profile
         CreateMap<Category, GetListCategoryResponse>().ReverseMap();
         CreateMap<Category, GetListCategoryQuery>().ReverseMap();
 
-        CreateMap<Category, CreatedCategoryResponse>().ReverseMap();
-        CreateMap<Category, CreateCategoryCommand>().ReverseMap();
-
-
-        CreateMap<CreatedCategoryResponse, Category>().ReverseMap();
-        CreateMap<CreateCategoryCommand, Category>().ReverseMap();
-
 
         CreateMap<IPaginate<Category>, GetListResponse<GetListCategoryResponse>>().ReverseMap();
     }

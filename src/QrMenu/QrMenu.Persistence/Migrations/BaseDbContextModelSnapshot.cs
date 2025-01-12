@@ -60,6 +60,16 @@ namespace QrMenu.Persistence.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("EmailAuthenticators", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            ActivationKey = "",
+                            CreatedDate = new DateTime(2025, 1, 8, 0, 6, 13, 730, DateTimeKind.Local).AddTicks(9465),
+                            IsVerified = true,
+                            UserId = 1
+                        });
                 });
 
             modelBuilder.Entity("Core.Security.Entities.OperationClaim", b =>
@@ -422,6 +432,78 @@ namespace QrMenu.Persistence.Migrations
                             Id = 55,
                             CreatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Name = "itemingredients.delete"
+                        },
+                        new
+                        {
+                            Id = 56,
+                            CreatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Name = "menus.admin"
+                        },
+                        new
+                        {
+                            Id = 57,
+                            CreatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Name = "menus.read"
+                        },
+                        new
+                        {
+                            Id = 58,
+                            CreatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Name = "menus.write"
+                        },
+                        new
+                        {
+                            Id = 59,
+                            CreatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Name = "menus.add"
+                        },
+                        new
+                        {
+                            Id = 60,
+                            CreatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Name = "menus.update"
+                        },
+                        new
+                        {
+                            Id = 61,
+                            CreatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Name = "menus.delete"
+                        },
+                        new
+                        {
+                            Id = 62,
+                            CreatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Name = "menuqrcodes.admin"
+                        },
+                        new
+                        {
+                            Id = 63,
+                            CreatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Name = "menuqrcodes.read"
+                        },
+                        new
+                        {
+                            Id = 64,
+                            CreatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Name = "menuqrcodes.write"
+                        },
+                        new
+                        {
+                            Id = 65,
+                            CreatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Name = "menuqrcodes.add"
+                        },
+                        new
+                        {
+                            Id = 66,
+                            CreatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Name = "menuqrcodes.update"
+                        },
+                        new
+                        {
+                            Id = 67,
+                            CreatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Name = "menuqrcodes.delete"
                         });
                 });
 
@@ -594,11 +676,11 @@ namespace QrMenu.Persistence.Migrations
                             Id = 1,
                             CompanyId = 1,
                             CreatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Email = "admin@admin.com",
+                            Email = "ahmet.ckr720@gmail.com",
                             FirstName = "Admin",
                             LastName = "Cakir",
-                            PasswordHash = new byte[] { 72, 255, 165, 3, 253, 167, 45, 255, 87, 43, 24, 82, 156, 235, 135, 153, 175, 10, 139, 106, 52, 224, 188, 16, 49, 212, 155, 157, 237, 176, 254, 202, 191, 125, 21, 96, 2, 137, 46, 128, 98, 165, 55, 247, 106, 81, 14, 210, 156, 97, 60, 11, 6, 254, 179, 241, 31, 28, 146, 24, 190, 194, 211, 47 },
-                            PasswordSalt = new byte[] { 93, 137, 169, 178, 185, 109, 153, 241, 155, 4, 148, 117, 251, 170, 84, 148, 110, 170, 179, 199, 168, 139, 0, 146, 168, 238, 199, 203, 238, 208, 49, 153, 47, 241, 97, 72, 138, 201, 61, 190, 68, 253, 206, 114, 167, 224, 198, 209, 117, 92, 144, 11, 106, 72, 201, 15, 2, 191, 214, 95, 218, 66, 142, 72, 214, 73, 145, 233, 188, 185, 156, 21, 114, 204, 78, 111, 216, 71, 204, 239, 115, 116, 145, 22, 186, 184, 216, 254, 244, 193, 218, 118, 84, 47, 146, 48, 5, 112, 46, 76, 30, 86, 76, 223, 119, 142, 147, 246, 175, 13, 76, 124, 101, 60, 148, 55, 121, 206, 120, 188, 197, 194, 79, 208, 252, 234, 156, 103 },
+                            PasswordHash = new byte[] { 103, 176, 208, 206, 182, 127, 146, 203, 213, 23, 252, 17, 210, 26, 235, 127, 241, 200, 129, 174, 246, 159, 156, 143, 166, 254, 169, 187, 118, 2, 91, 186, 110, 149, 161, 109, 235, 111, 199, 111, 123, 39, 9, 35, 137, 244, 241, 233, 74, 72, 19, 22, 208, 160, 154, 228, 15, 18, 193, 6, 120, 241, 125, 184 },
+                            PasswordSalt = new byte[] { 173, 42, 246, 253, 55, 250, 87, 72, 143, 153, 61, 211, 85, 42, 80, 4, 96, 87, 149, 75, 165, 148, 87, 92, 252, 57, 202, 245, 187, 161, 39, 149, 88, 91, 20, 115, 49, 58, 111, 115, 91, 36, 10, 71, 33, 204, 114, 173, 228, 77, 125, 192, 8, 155, 164, 194, 95, 218, 31, 90, 49, 98, 216, 183, 81, 154, 90, 74, 187, 91, 199, 126, 119, 179, 66, 106, 18, 146, 141, 57, 206, 192, 30, 181, 82, 32, 241, 193, 83, 171, 20, 232, 148, 205, 59, 174, 112, 155, 252, 87, 154, 174, 30, 228, 236, 103, 110, 78, 73, 128, 35, 163, 124, 199, 224, 65, 43, 231, 131, 176, 242, 205, 2, 253, 229, 108, 71, 49 },
                             Status = true
                         });
                 });

@@ -10,6 +10,7 @@ using Core.Application.Results;
 using Microsoft.AspNetCore.Http;
 using QrMenu.Application.Services.ItemImagesService;
 using Core.Application.Pipelines.Caching;
+using Core.Helpers.ImageHelper;
 
 namespace QrMenu.Application.Features.ItemImages.Commands.Update
 {
@@ -17,7 +18,7 @@ namespace QrMenu.Application.Features.ItemImages.Commands.Update
     {
         public int Id { get; set; }
         public int ItemId { get; set; }
-        public Byte[] Image { get; set; }
+        public IFormFile Image { get; set; }
         public string Description { get; set; }
 
         public string[] Roles => new [] 
@@ -45,6 +46,12 @@ namespace QrMenu.Application.Features.ItemImages.Commands.Update
 
                 if (itemimage is null)
                     throw new BusinessException("Entity does not exist.");
+
+                byte[] bytes = await ImageHelper.ConvertToByteArrayAsync(request.Image);
+
+                var scaledImage = ImageHelper.ScaleImage(bytes, 500, 500);
+
+                itemimage.Image = scaledImage;
 
                 _mapper.Map(request, itemimage);
 

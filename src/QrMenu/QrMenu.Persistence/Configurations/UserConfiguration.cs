@@ -49,12 +49,13 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
                 CompanyId = 1,
                 FirstName = "Admin",
                 LastName = "Cakir",
-                Email = "admin@admin.com",
+                Email = "ahmet.ckr720@gmail.com",
                 Status = true,
                 PasswordHash = passwordHash,
                 PasswordSalt = passwordSalt
             };
         users.Add(adminUser);
+
 
         return users.ToArray();
     }

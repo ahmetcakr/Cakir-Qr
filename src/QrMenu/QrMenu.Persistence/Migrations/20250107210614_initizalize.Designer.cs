@@ -12,8 +12,8 @@ using QrMenu.Persistence.Contexts;
 namespace QrMenu.Persistence.Migrations
 {
     [DbContext(typeof(BaseDbContext))]
-    [Migration("20240715161302_initialize")]
-    partial class initialize
+    [Migration("20250107210614_initizalize")]
+    partial class initizalize
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -63,6 +63,16 @@ namespace QrMenu.Persistence.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("EmailAuthenticators", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            ActivationKey = "",
+                            CreatedDate = new DateTime(2025, 1, 8, 0, 6, 13, 730, DateTimeKind.Local).AddTicks(9465),
+                            IsVerified = true,
+                            UserId = 1
+                        });
                 });
 
             modelBuilder.Entity("Core.Security.Entities.OperationClaim", b =>
@@ -281,6 +291,222 @@ namespace QrMenu.Persistence.Migrations
                             Id = 31,
                             CreatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Name = "companytypes.delete"
+                        },
+                        new
+                        {
+                            Id = 32,
+                            CreatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Name = "categories.admin"
+                        },
+                        new
+                        {
+                            Id = 33,
+                            CreatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Name = "categories.read"
+                        },
+                        new
+                        {
+                            Id = 34,
+                            CreatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Name = "categories.write"
+                        },
+                        new
+                        {
+                            Id = 35,
+                            CreatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Name = "categories.add"
+                        },
+                        new
+                        {
+                            Id = 36,
+                            CreatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Name = "categories.update"
+                        },
+                        new
+                        {
+                            Id = 37,
+                            CreatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Name = "categories.delete"
+                        },
+                        new
+                        {
+                            Id = 38,
+                            CreatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Name = "items.admin"
+                        },
+                        new
+                        {
+                            Id = 39,
+                            CreatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Name = "items.read"
+                        },
+                        new
+                        {
+                            Id = 40,
+                            CreatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Name = "items.write"
+                        },
+                        new
+                        {
+                            Id = 41,
+                            CreatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Name = "items.add"
+                        },
+                        new
+                        {
+                            Id = 42,
+                            CreatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Name = "items.update"
+                        },
+                        new
+                        {
+                            Id = 43,
+                            CreatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Name = "items.delete"
+                        },
+                        new
+                        {
+                            Id = 44,
+                            CreatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Name = "itemimages.admin"
+                        },
+                        new
+                        {
+                            Id = 45,
+                            CreatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Name = "itemimages.read"
+                        },
+                        new
+                        {
+                            Id = 46,
+                            CreatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Name = "itemimages.write"
+                        },
+                        new
+                        {
+                            Id = 47,
+                            CreatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Name = "itemimages.add"
+                        },
+                        new
+                        {
+                            Id = 48,
+                            CreatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Name = "itemimages.update"
+                        },
+                        new
+                        {
+                            Id = 49,
+                            CreatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Name = "itemimages.delete"
+                        },
+                        new
+                        {
+                            Id = 50,
+                            CreatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Name = "itemingredients.admin"
+                        },
+                        new
+                        {
+                            Id = 51,
+                            CreatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Name = "itemingredients.read"
+                        },
+                        new
+                        {
+                            Id = 52,
+                            CreatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Name = "itemingredients.write"
+                        },
+                        new
+                        {
+                            Id = 53,
+                            CreatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Name = "itemingredients.add"
+                        },
+                        new
+                        {
+                            Id = 54,
+                            CreatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Name = "itemingredients.update"
+                        },
+                        new
+                        {
+                            Id = 55,
+                            CreatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Name = "itemingredients.delete"
+                        },
+                        new
+                        {
+                            Id = 56,
+                            CreatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Name = "menus.admin"
+                        },
+                        new
+                        {
+                            Id = 57,
+                            CreatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Name = "menus.read"
+                        },
+                        new
+                        {
+                            Id = 58,
+                            CreatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Name = "menus.write"
+                        },
+                        new
+                        {
+                            Id = 59,
+                            CreatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Name = "menus.add"
+                        },
+                        new
+                        {
+                            Id = 60,
+                            CreatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Name = "menus.update"
+                        },
+                        new
+                        {
+                            Id = 61,
+                            CreatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Name = "menus.delete"
+                        },
+                        new
+                        {
+                            Id = 62,
+                            CreatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Name = "menuqrcodes.admin"
+                        },
+                        new
+                        {
+                            Id = 63,
+                            CreatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Name = "menuqrcodes.read"
+                        },
+                        new
+                        {
+                            Id = 64,
+                            CreatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Name = "menuqrcodes.write"
+                        },
+                        new
+                        {
+                            Id = 65,
+                            CreatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Name = "menuqrcodes.add"
+                        },
+                        new
+                        {
+                            Id = 66,
+                            CreatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Name = "menuqrcodes.update"
+                        },
+                        new
+                        {
+                            Id = 67,
+                            CreatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Name = "menuqrcodes.delete"
                         });
                 });
 
@@ -453,11 +679,11 @@ namespace QrMenu.Persistence.Migrations
                             Id = 1,
                             CompanyId = 1,
                             CreatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Email = "admin@admin.com",
+                            Email = "ahmet.ckr720@gmail.com",
                             FirstName = "Admin",
                             LastName = "Cakir",
-                            PasswordHash = new byte[] { 147, 188, 129, 216, 107, 147, 119, 138, 119, 19, 251, 155, 38, 62, 221, 28, 219, 5, 90, 68, 31, 174, 66, 51, 195, 99, 63, 87, 50, 13, 77, 194, 50, 97, 46, 87, 223, 67, 70, 197, 72, 79, 233, 185, 177, 239, 81, 71, 182, 237, 13, 57, 131, 2, 148, 250, 100, 194, 150, 166, 15, 215, 183, 174 },
-                            PasswordSalt = new byte[] { 183, 87, 28, 17, 90, 21, 59, 72, 26, 238, 219, 47, 128, 101, 175, 193, 204, 41, 216, 196, 18, 59, 130, 137, 122, 130, 105, 47, 129, 105, 11, 196, 139, 91, 134, 248, 81, 251, 52, 142, 148, 217, 13, 93, 4, 158, 242, 131, 76, 210, 112, 190, 95, 238, 114, 105, 111, 122, 166, 161, 10, 46, 247, 101, 142, 171, 145, 196, 149, 61, 151, 148, 149, 144, 229, 158, 214, 238, 81, 3, 197, 186, 222, 160, 212, 187, 226, 98, 166, 155, 58, 77, 72, 182, 88, 96, 230, 236, 78, 152, 91, 135, 185, 222, 26, 147, 252, 149, 15, 172, 143, 226, 25, 3, 35, 213, 141, 135, 154, 56, 251, 102, 145, 238, 128, 53, 150, 197 },
+                            PasswordHash = new byte[] { 103, 176, 208, 206, 182, 127, 146, 203, 213, 23, 252, 17, 210, 26, 235, 127, 241, 200, 129, 174, 246, 159, 156, 143, 166, 254, 169, 187, 118, 2, 91, 186, 110, 149, 161, 109, 235, 111, 199, 111, 123, 39, 9, 35, 137, 244, 241, 233, 74, 72, 19, 22, 208, 160, 154, 228, 15, 18, 193, 6, 120, 241, 125, 184 },
+                            PasswordSalt = new byte[] { 173, 42, 246, 253, 55, 250, 87, 72, 143, 153, 61, 211, 85, 42, 80, 4, 96, 87, 149, 75, 165, 148, 87, 92, 252, 57, 202, 245, 187, 161, 39, 149, 88, 91, 20, 115, 49, 58, 111, 115, 91, 36, 10, 71, 33, 204, 114, 173, 228, 77, 125, 192, 8, 155, 164, 194, 95, 218, 31, 90, 49, 98, 216, 183, 81, 154, 90, 74, 187, 91, 199, 126, 119, 179, 66, 106, 18, 146, 141, 57, 206, 192, 30, 181, 82, 32, 241, 193, 83, 171, 20, 232, 148, 205, 59, 174, 112, 155, 252, 87, 154, 174, 30, 228, 236, 103, 110, 78, 73, 128, 35, 163, 124, 199, 224, 65, 43, 231, 131, 176, 242, 205, 2, 253, 229, 108, 71, 49 },
                             Status = true
                         });
                 });
@@ -507,6 +733,43 @@ namespace QrMenu.Persistence.Migrations
                             OperationClaimId = 1,
                             UserId = 1
                         });
+                });
+
+            modelBuilder.Entity("QrMenu.Domain.Entities.Category", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("CategoryName")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<int>("CompanyId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("DeletedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.Property<DateTime?>("UpdatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CompanyId");
+
+                    b.ToTable("Categories", (string)null);
                 });
 
             modelBuilder.Entity("QrMenu.Domain.Entities.Company", b =>
@@ -612,6 +875,187 @@ namespace QrMenu.Persistence.Migrations
                         });
                 });
 
+            modelBuilder.Entity("QrMenu.Domain.Entities.Item", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("CategoryId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("DeletedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.Property<bool>("IsAvailable")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bit")
+                        .HasDefaultValue(true);
+
+                    b.Property<string>("ItemName")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<decimal>("Price")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<DateTime?>("UpdatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CategoryId");
+
+                    b.ToTable("Items", (string)null);
+                });
+
+            modelBuilder.Entity("QrMenu.Domain.Entities.ItemImage", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("DeletedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.Property<byte[]>("Image")
+                        .IsRequired()
+                        .HasColumnType("varbinary(max)");
+
+                    b.Property<int>("ItemId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime?>("UpdatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ItemId");
+
+                    b.ToTable("ItemImages", (string)null);
+                });
+
+            modelBuilder.Entity("QrMenu.Domain.Entities.ItemIngredient", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("DeletedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("ItemId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime?>("UpdatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ItemId")
+                        .IsUnique();
+
+                    b.ToTable("ItemIngredients", (string)null);
+                });
+
+            modelBuilder.Entity("QrMenu.Domain.Entities.Menu", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("CompanyId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("DeletedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.Property<string>("MenuName")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<DateTime?>("UpdatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CompanyId");
+
+                    b.ToTable("Menus", (string)null);
+                });
+
+            modelBuilder.Entity("QrMenu.Domain.Entities.MenuQrCode", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("DeletedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("MenuId")
+                        .HasColumnType("int");
+
+                    b.Property<byte[]>("QrCode")
+                        .IsRequired()
+                        .HasColumnType("varbinary(max)");
+
+                    b.Property<string>("QrCodeText")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("UpdatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("MenuId");
+
+                    b.ToTable("MenuQrCodes", (string)null);
+                });
+
             modelBuilder.Entity("Core.Security.Entities.EmailAuthenticator", b =>
                 {
                     b.HasOne("Core.Security.Entities.User", "User")
@@ -664,6 +1108,17 @@ namespace QrMenu.Persistence.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("QrMenu.Domain.Entities.Category", b =>
+                {
+                    b.HasOne("QrMenu.Domain.Entities.Company", "Company")
+                        .WithMany("Categories")
+                        .HasForeignKey("CompanyId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Company");
+                });
+
             modelBuilder.Entity("QrMenu.Domain.Entities.Company", b =>
                 {
                     b.HasOne("QrMenu.Domain.Entities.CompanyType", "CompanyType")
@@ -673,6 +1128,61 @@ namespace QrMenu.Persistence.Migrations
                         .IsRequired();
 
                     b.Navigation("CompanyType");
+                });
+
+            modelBuilder.Entity("QrMenu.Domain.Entities.Item", b =>
+                {
+                    b.HasOne("QrMenu.Domain.Entities.Category", "Category")
+                        .WithMany("Items")
+                        .HasForeignKey("CategoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Category");
+                });
+
+            modelBuilder.Entity("QrMenu.Domain.Entities.ItemImage", b =>
+                {
+                    b.HasOne("QrMenu.Domain.Entities.Item", "Item")
+                        .WithMany("ItemImages")
+                        .HasForeignKey("ItemId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Item");
+                });
+
+            modelBuilder.Entity("QrMenu.Domain.Entities.ItemIngredient", b =>
+                {
+                    b.HasOne("QrMenu.Domain.Entities.Item", "Item")
+                        .WithOne("ItemIngredient")
+                        .HasForeignKey("QrMenu.Domain.Entities.ItemIngredient", "ItemId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Item");
+                });
+
+            modelBuilder.Entity("QrMenu.Domain.Entities.Menu", b =>
+                {
+                    b.HasOne("QrMenu.Domain.Entities.Company", "Company")
+                        .WithMany("Menus")
+                        .HasForeignKey("CompanyId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Company");
+                });
+
+            modelBuilder.Entity("QrMenu.Domain.Entities.MenuQrCode", b =>
+                {
+                    b.HasOne("QrMenu.Domain.Entities.Menu", "Menu")
+                        .WithMany("MenuQrCodes")
+                        .HasForeignKey("MenuId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Menu");
                 });
 
             modelBuilder.Entity("Core.Security.Entities.OperationClaim", b =>
@@ -691,9 +1201,34 @@ namespace QrMenu.Persistence.Migrations
                     b.Navigation("UserOperationClaims");
                 });
 
+            modelBuilder.Entity("QrMenu.Domain.Entities.Category", b =>
+                {
+                    b.Navigation("Items");
+                });
+
+            modelBuilder.Entity("QrMenu.Domain.Entities.Company", b =>
+                {
+                    b.Navigation("Categories");
+
+                    b.Navigation("Menus");
+                });
+
             modelBuilder.Entity("QrMenu.Domain.Entities.CompanyType", b =>
                 {
                     b.Navigation("Companies");
+                });
+
+            modelBuilder.Entity("QrMenu.Domain.Entities.Item", b =>
+                {
+                    b.Navigation("ItemImages");
+
+                    b.Navigation("ItemIngredient")
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("QrMenu.Domain.Entities.Menu", b =>
+                {
+                    b.Navigation("MenuQrCodes");
                 });
 #pragma warning restore 612, 618
         }

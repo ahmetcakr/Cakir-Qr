@@ -1,6 +1,8 @@
 ﻿using Core.Security.Entities;
+using Core.Security.Hashing;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using Nest;
 
 namespace QrMenu.Persistence.Configurations;
 
@@ -21,5 +23,8 @@ public class OtpAuthenticatorConfiguration : IEntityTypeConfiguration<OtpAuthent
         builder.HasQueryFilter(oa => !oa.DeletedDate.HasValue);
 
         builder.HasOne(oa => oa.User);
+
     }
+
+
 }

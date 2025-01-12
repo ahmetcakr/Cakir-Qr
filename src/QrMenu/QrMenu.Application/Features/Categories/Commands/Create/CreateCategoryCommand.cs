@@ -1,4 +1,5 @@
 
+using System.Linq.Expressions;
 using AutoMapper;
 using Core.Application.Pipelines.Authorization;
 using Core.Application.Pipelines.Caching;
@@ -45,9 +46,19 @@ namespace QrMenu.Application.Features.Categories.Commands.Create
 
                 Category createdCategory = await _categoryService.AddAsync(category);
 
-                CreatedCategoryResponse response = _mapper.Map<CreatedCategoryResponse>(createdCategory);
+                try
+                {
+                    CreatedCategoryResponse response = _mapper.Map<CreatedCategoryResponse>(createdCategory);
+                    return Result<CreatedCategoryResponse>.Succeed(response, StatusCodes.Status201Created);
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e);
+                    throw;
+                }
+                
 
-                return Result<CreatedCategoryResponse>.Succeed(response, StatusCodes.Status201Created);
+                return Result<CreatedCategoryResponse>.Succeed(null, StatusCodes.Status201Created);
             }
         }
     }

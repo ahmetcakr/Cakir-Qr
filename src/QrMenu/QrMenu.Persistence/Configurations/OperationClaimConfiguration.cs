@@ -3,6 +3,7 @@ using Core.Security.Entities;
 using QrMenu.Application.Features.Users.Constants;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using QrMenu.Domain.Entities;
 
 namespace QrMenu.Persistence.Configurations;
 
@@ -145,6 +146,30 @@ public class OperationClaimConfiguration : IEntityTypeConfiguration<OperationCla
         seeds.Add(new OperationClaim { Id = ++id, Name = "itemingredients.add" });
         seeds.Add(new OperationClaim { Id = ++id, Name = "itemingredients.update" });
         seeds.Add(new OperationClaim { Id = ++id, Name = "itemingredients.delete" });
+
+        #endregion
+
+        #region Menus
+
+        seeds.Add(new OperationClaim { Id = ++id, Name = "menus.admin" });
+        seeds.Add(new OperationClaim { Id = ++id, Name = "menus.read" });
+        seeds.Add(new OperationClaim { Id = ++id, Name = "menus.write" });
+
+        seeds.Add(new OperationClaim { Id = ++id, Name = "menus.add" });
+        seeds.Add(new OperationClaim { Id = ++id, Name = "menus.update" });
+        seeds.Add(new OperationClaim { Id = ++id, Name = "menus.delete" }); 
+
+        #endregion
+
+        #region MenuQrCodes
+
+        seeds.Add(new OperationClaim { Id = ++id, Name = "menuqrcodes.admin" });
+        seeds.Add(new OperationClaim { Id = ++id, Name = "menuqrcodes.read" });
+        seeds.Add(new OperationClaim { Id = ++id, Name = "menuqrcodes.write" });
+
+        seeds.Add(new OperationClaim { Id = ++id, Name = "menuqrcodes.add" });
+        seeds.Add(new OperationClaim { Id = ++id, Name = "menuqrcodes.update" });
+        seeds.Add(new OperationClaim { Id = ++id, Name = "menuqrcodes.delete" });
 
         #endregion
 
